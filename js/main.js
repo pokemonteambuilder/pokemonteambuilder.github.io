@@ -57,7 +57,7 @@ function resetSelected(pindex) {
 
 function loadData() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://pokemonteambuilder.github.io/data/pokedex.json", false);
+    xmlHttp.open("GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false);
     xmlHttp.send(null);
     POKEDEX = JSON.parse(xmlHttp.responseText);
     displyResults();
