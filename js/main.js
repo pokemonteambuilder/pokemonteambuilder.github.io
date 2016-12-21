@@ -5,6 +5,18 @@ var POKEDEX = {};
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
+$(".picons").hover(function() {
+        // var $pkmn = $(this);
+        handle = setInterval(function() {
+            // $pkmn.toggleClass("up");
+            alert(1);
+        }, 1000);
+    }, function() {
+        // $(this).removeClass("up");
+        // alert(0);
+        clearInterval(handle);
+});
+
 
 function addSelected(pkey) {
     // Exit when the Pokemon cannot be added
@@ -20,9 +32,9 @@ function addSelected(pkey) {
     $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
     // Add the Pokemon types
     var types = POKEDEX[pkey].types;
-    $("#sp_box_" + index).find(".sp_type1").text(types[0]);
+    $("#sp_box_" + index).find(".sp_type1").html("<span class=\"tag tag_type_" + types[0] + "\">"+ types[0] + "</span>");
     if (types.length == 2) {
-        $("#sp_box_" + index).find(".sp_type2").text(types[1]);
+        $("#sp_box_" + index).find(".sp_type2").html("<span class=\"tag tag_type_" + types[1] + "\">"+ types[1] + "</span>");
     }
     // Add the Pokemon image
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
@@ -57,8 +69,8 @@ function resetSelected(pindex) {
 
 function loadData() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false);
-    xmlHttp.send(null);
+    xmlHttp.open( "GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false );
+    xmlHttp.send( null );
     POKEDEX = JSON.parse(xmlHttp.responseText);
     displyResults();
 }

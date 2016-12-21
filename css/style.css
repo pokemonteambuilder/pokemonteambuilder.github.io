@@ -2,3 +2,76 @@
   height: 30px;
   width: 40px;
 }
+
+.tag_type_Bug {
+    background-color: OliveDrab;
+    color: white;
+}
+.tag_type_Dark {
+    background-color: Black;
+    color: white;
+}
+.tag_type_Dragon {
+    background-color: DarkSlateBlue;
+    color: white;
+}
+.tag_type_Electric {
+    background-color: Gold;
+    color: white;
+}
+.tag_type_Fairy {
+    background-color: HotPink;
+    color: white;
+}
+.tag_type_Fighting {
+    background-color: Sienna;
+    color: white;
+}
+.tag_type_Fire {
+    background-color: OrangeRed;
+    color: white;
+}
+.tag_type_Flying {
+    background-color: LightBlue;
+    color: white;
+}
+.tag_type_Ghost {
+    background-color: Indigo;
+    color: white;
+}
+.tag_type_Grass {
+    background-color: SeaGreen;
+    color: white;
+}
+.tag_type_Ground {
+    background-color: Peru;
+    color: white;
+}
+.tag_type_Ice {
+    background-color: LightSkyBlue;
+    color: white;
+}
+.tag_type_Normal {
+    background-color: Ivory;
+    color: white;
+}
+.tag_type_Poison {
+    background-color: DarkOrchid;
+    color: white;
+}
+.tag_type_Psychic {
+    background-color: Fuchsia;
+    color: white;
+}
+.tag_type_Rock {
+    background-color: Chocolate;
+    color: white;
+}
+.tag_type_Steel {
+    background-color: DarkGrey;
+    color: white;
+}
+.tag_type_Water {
+    background-color: DodgerBlue;
+    color: white;
+}
