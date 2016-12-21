@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="css/bulma.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/positions.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body onload="initialize()">
+
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Pokemon Team Builder</h1>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-third">
+                <div id="sp_box_0" class="box">
+                </div>
+                <div id="sp_box_1" class="box">
+                </div>
+                <div id="sp_box_2" class="box">
+                </div>
+                <div id="sp_box_3" class="box">
+                </div>
+                <div id="sp_box_4" class="box">
+                </div>
+                <div id="sp_box_5" class="box">
+                </div>
+            </div>
+
+            <div class="column is-two-thirds">
+                <nav class="level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <p class="control has-addons">
+                        <input class="input" type="text" placeholder="Find a post">
+                        <button class="button">
+                          Search
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </nav>
+
+                <div id="plistbox">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p><strong>Pokemon Team Builder</strong> by Tiberiu Vilcu.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- TEMPLATES -->
+<div id="sp_box_template" class="box" style="display:none;">
+    <nav class="level">
+        <div class="level-left">
+            <div class="sp_icon level-item">
+                <i class="image is-40x30 picon_egg"></i>
+            </div>
+            <div class="level-item">
+                <p><strong class="sp_name"></strong></p>
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <p class="sp_type1"></p>
+            </div>
+            <div class="level-item">
+                <p class="sp_type2"></p>
+            </div>
+            <div class="sp_delete level-item">
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+
+</html>
