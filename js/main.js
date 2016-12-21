@@ -5,18 +5,6 @@ var POKEDEX = {};
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
-$(".picons").hover(function() {
-        // var $pkmn = $(this);
-        handle = setInterval(function() {
-            // $pkmn.toggleClass("up");
-            alert(1);
-        }, 1000);
-    }, function() {
-        // $(this).removeClass("up");
-        // alert(0);
-        clearInterval(handle);
-});
-
 
 function addSelected(pkey) {
     // Exit when the Pokemon cannot be added
@@ -210,6 +198,17 @@ function displyResults() {
             $("#plistbox").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
         }
     }
+
+    var shakeController = 0;
+    $("i").hover(function() {
+        var $icon = $(this);
+        shakeController = setInterval(function() {$icon.toggleClass("picon_move");}, 175);
+    },
+    function() {
+        var $icon = $(this);
+        $icon.removeClass("picon_move");
+        clearInterval(shakeController);
+    });
 }
 
 

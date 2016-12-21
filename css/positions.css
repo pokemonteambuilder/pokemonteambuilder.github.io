@@ -8,12 +8,16 @@
     background-position: center;
 }
 
+.picon_move {
+    transform: translate(0px, -4px);
+}
+
 .picon_1 {
     background-position: 0 0
 }
 
 .picon_2 {
-    background-position: -40px 0
+    background-position: -40px 0;
 }
 
 .picon_3 {
