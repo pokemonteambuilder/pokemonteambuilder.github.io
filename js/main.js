@@ -1,6 +1,9 @@
 "use strict";
 
 var POKEDEX = {};
+var POKEDEX_FILTERED = {};
+
+var FILTER_NAME = "";
 
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
@@ -60,7 +63,8 @@ function loadData() {
     xmlHttp.open( "GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false );
     xmlHttp.send( null );
     POKEDEX = JSON.parse(xmlHttp.responseText);
-    displyResults();
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    displayResults();
 }
 
 function getIconString(pobject) {
@@ -183,13 +187,14 @@ function getIconString(pobject) {
 }
 
 
-function displyResults() {
+function displayResults() {
+    $("#plistbox").html(""); // Clear the old results
     var wrapCount = 0;
     var currentColumn = 1;
     $("#plistbox").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
-    for (var key in POKEDEX) {
-        if (POKEDEX.hasOwnProperty(key)) {
-            $("#pp_row_" + currentColumn).append("<div class=\"column is-1\"><a href = \"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX[key]) + "</a></div> ");
+    for (var key in POKEDEX_FILTERED) {
+        if (POKEDEX_FILTERED.hasOwnProperty(key)) {
+            $("#pp_row_" + currentColumn).append("<div class=\"column is-1\"><a title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key]) + "</a></div> ");
         }
         wrapCount += 1;
         if (wrapCount === 12) {
@@ -212,6 +217,57 @@ function displyResults() {
 }
 
 
+function filterByName(useCurrent) {
+    if (useCurrent == true) {
+        var dex = POKEDEX_FILTERED;
+    }
+    else {
+        var dex = POKEDEX;
+    }
+    var copyPokedex = {};
+    for (var key in dex) {
+        if (dex[key].species.toLowerCase().indexOf(FILTER_NAME) != -1) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
+function filterByAll() {
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    // Filter by name
+    if (FILTER_NAME != "") {
+        filterByName(true);
+    }
+}
+
+
+function resetFilters() {
+    FILTER_NAME = "";
+    $("#pp_filter_name").val("");
+    $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    displayResults();
+}
+
+
+var previousEntry = "";
+function nameFilterEntered() {
+    FILTER_NAME = $("#pp_filter_name").val().toLowerCase();
+    if (FILTER_NAME.indexOf(previousEntry) != -1) {
+        // Filter with current results
+        filterByName(true);
+    }
+    else {
+        // Filter from the beginning
+        filterByAll();
+    }
+    previousEntry = FILTER_NAME;
+    displayResults();
+}
+
+
 function initialize() {
     resetSelected(0);
     resetSelected(1);
@@ -220,4 +276,7 @@ function initialize() {
     resetSelected(4);
     resetSelected(5);
     loadData();
+
+    $("#pp_filter_name").keyup(function(){nameFilterEntered()});
+    $("#pp_filter_reset").click(function(){resetFilters()});
 }

@@ -38,16 +38,17 @@
 
             <div class="column is-two-thirds">
                 <nav class="level">
-                  <div class="level-left">
-                    <div class="level-item">
-                      <p class="control has-addons">
-                        <input class="input" type="text" placeholder="Filer by name">
-                        <button class="button">Filter</button>
-                      </p>
+                    <div class="level-left">
+                        <div class="level-item">
+                            <input id="pp_filter_name" class="input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Enter text to filter by name">
+                        </div>
                     </div>
-                  </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a id="pp_filter_reset" class="button is-danger is-outlined">Reset filters</a>
+                        </div>
+                    </div>
                 </nav>
-
                 <div id="plistbox">
                 </div>
             </div>
