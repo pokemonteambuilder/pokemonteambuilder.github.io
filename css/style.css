@@ -112,3 +112,86 @@
     background-color: DodgerBlue;
     color: white;
 }
+
+.picons {
+    background: url("../data/icons.png") no-repeat;
+    position: relative;
+}
+
+.picon_egg {
+    background: url("../data/egg.png") no-repeat;
+    background-position: center;
+}
+
+.picon_move {
+    transform: translate(0px, -4px);
+    padding-bottom: 10px;
+}
+
+.picon_border {
+    position: relative;
+}
+.picon_border:after {
+  content:""; 
+  /*background: black; */
+  position: absolute; 
+  bottom: -4px; 
+  left: 0; 
+  height: 2px; 
+  width: 40px;
+}
+
+.picon_border_Bug:after {
+    background: #99cc00;
+}
+.picon_border_Dark:after {
+    background: #333300;
+}
+.picon_border_Dragon:after {
+    background: #003399;
+}
+.picon_border_Electric:after {
+    background: #F0D83C;
+}
+.picon_border_Fairy:after {
+    background: HotPink;
+}
+.picon_border_Fighting:after {
+    background: Sienna;
+}
+.picon_border_Fire:after {
+    background: OrangeRed;
+}
+.picon_border_Flying:after {
+    background: #6699ff;
+}
+.picon_border_Ghost:after {
+    background: Indigo;
+}
+.picon_border_Grass:after {
+    background: #009933;
+}
+.picon_border_Ground:after {
+    background: Peru;
+}
+.picon_border_Ice:after {
+    background: LightSkyBlue;
+}
+.picon_border_Normal:after {
+    background: Silver;
+}
+.picon_border_Poison:after {
+    background: DarkOrchid;
+}
+.picon_border_Psychic:after {
+    background: #cc3399;
+}
+.picon_border_Rock:after {
+    background: Chocolate;
+}
+.picon_border_Steel:after {
+    background: #4c5967;
+}
+.picon_border_Water:after {
+    background: DodgerBlue;
+}

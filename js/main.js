@@ -74,7 +74,7 @@ function loadData() {
     displayResults();
 }
 
-function getIconString(pobject) {
+function getIconString(pobject, key) {
     var suffix = "" + pobject.num;
     if (pobject.species.indexOf("-Mega-X") != -1) {
         suffix += "-mega-x";
@@ -193,7 +193,7 @@ function getIconString(pobject) {
     else if (pobject.species.indexOf("stic-F") != -1) {
         suffix += "-female";
     }
-    return "<i class=\"image is-40x30 picons picon_" + suffix + "\"></i>";
+    return "<i id=\"" + key + "\" class=\"image is-40x30 picons picon_" + suffix + "\"></i>";
 }
 
 
@@ -204,7 +204,7 @@ function displayResults() {
     $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
-            $("#pp_row_" + currentColumn).append("<div class=\"column is-1\"><a title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key]) + "</a></div> ");
+            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
         }
         wrapCount += 1;
         if (wrapCount === 12) {
@@ -215,12 +215,23 @@ function displayResults() {
     }
 
     var shakeController = 0;
-    $("i").hover(function() {
+    var currentType = "";
+    $("i.picons").hover(function() {
         var $icon = $(this);
+        
+        var pkey = $icon[0].id;
+        if (pkey in POKEDEX) {
+            currentType = POKEDEX[pkey].types[0];
+            // $icon.parent().parent().addClass("picon_border");
+            $icon.parent().parent().addClass("picon_border_" + currentType);
+            console.log($icon.parent());
+        }
+        console.log($icon[0].id);
         shakeController = setInterval(function() {$icon.toggleClass("picon_move");}, 175);
     },
     function() {
         var $icon = $(this);
+        $icon.parent().parent().removeClass("picon_border_" + currentType);
         $icon.removeClass("picon_move");
         clearInterval(shakeController);
     });

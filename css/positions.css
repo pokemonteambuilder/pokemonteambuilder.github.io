@@ -1,17 +1,3 @@
-.picons {
-    background: url("../data/icons.png") no-repeat;
-    /*background-color: black;*/
-}
-
-.picon_egg {
-    background: url("../data/egg.png") no-repeat;
-    background-position: center;
-}
-
-.picon_move {
-    transform: translate(0px, -4px);
-}
-
 .picon_1 {
     background-position: 0 0
 }
