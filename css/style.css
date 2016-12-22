@@ -16,21 +16,28 @@
 }
 
 .tag_selected {
-    /*border: 2px solid #dddddd;*/
-    /*box-shadow: 0px 2px 2px #888888;*/
     opacity: 1;
 }
 
 .tag_selected:hover {
-    /*box-shadow: 0px 4px 2px #888888;*/
     opacity: 0.7;
 }
 
-#pp_filter_level_0 {
-    margin-bottom: 5px;
+.types_row_top {
+    margin-bottom: 5px !important;
 }
-#pp_filter_level_1 {
-    margin-top: 5px;
+
+.types_row_bottom {
+    margin-top: 5px !important;
+}
+
+
+.type_info_danger {
+    color: #ff3860;
+}
+
+.chart_type_box {
+    text-align: center;
 }
 
 .tag_type_Bug {

@@ -1,6 +1,6 @@
 'use strict';
 
-exports.BattleTypeChart = {
+var TYPE_CHART = {
 	"Bug": {
 		damageTaken: {
 			"Bug": 0,

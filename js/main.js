@@ -32,6 +32,9 @@ function addSelected(pkey) {
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
     // Add the delete button
     $("#sp_box_" + index).find(".sp_delete").html("<a href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
+
+    calculateWeaknesses();
+    calculateResistances();
 }
 
 
@@ -51,6 +54,9 @@ function removeSelected(pkey) {
     currentSelected[numSelected - 1] = "";
     resetSelected(numSelected - 1);
     numSelected -= 1;
+
+    calculateWeaknesses();
+    calculateResistances();
 }
 
 
@@ -221,6 +227,84 @@ function displayResults() {
 }
 
 
+function calculateWeaknesses() {
+    for (var attack in TYPE_CHART) {
+        var count = 0;
+        for (var i = 0; i < numSelected; i++) {
+            var defense = POKEDEX[currentSelected[i]].types[0];
+            var alreadyWeak = false;
+            var resistFirst = false;
+            if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                count += 1;
+                alreadyWeak = true;
+            }
+            else if (TYPE_CHART[defense].damageTaken[attack] == 2) {
+                resistFirst = true;
+            }
+            if (POKEDEX[currentSelected[i]].types.length > 1) {
+                defense = POKEDEX[currentSelected[i]].types[1];
+                if (TYPE_CHART[defense].damageTaken[attack] == 2) {
+                    if (alreadyWeak == true) {
+                        count -= 1;
+                    }
+                }
+                else if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                    if (alreadyWeak == false && resistFirst == false) {
+                        count += 1;
+                    }
+                }
+            }
+        }
+        $("#tw_num_" + attack).text("x " + count);
+        if (count >= 3) {
+            $("#tw_num_" + attack).addClass("type_info_danger");
+        }
+        else {
+            $("#tw_num_" + attack).removeClass("type_info_danger");
+        }
+    }
+}
+
+
+function calculateResistances() {
+    for (var attack in TYPE_CHART) {
+        var count = 0;
+        for (var i = 0; i < numSelected; i++) {
+            var defense = POKEDEX[currentSelected[i]].types[0];
+            var alreadyResist = false;
+            var weakFirst = false;
+            if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
+                count += 1;
+                alreadyResist = true;
+            }
+            else if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                weakFirst = true;
+            }
+            if (POKEDEX[currentSelected[i]].types.length > 1) {
+                defense = POKEDEX[currentSelected[i]].types[1];
+                if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                    if (alreadyResist == true) {
+                        count -= 1;
+                    }
+                }
+                else if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
+                    if (alreadyResist == false && weakFirst == false) {
+                        count += 1;
+                    }
+                }
+            }
+        }
+        $("#tr_num_" + attack).text("x " + count);
+        if (count == 0 && numSelected > 0) {
+            $("#tr_num_" + attack).addClass("type_info_danger");
+        }
+        else {
+            $("#tr_num_" + attack).removeClass("type_info_danger");
+        }
+    }
+}
+
+
 function filterByName(useCurrent) {
     if (useCurrent == true) {
         var dex = POKEDEX_FILTERED;
@@ -339,21 +423,6 @@ function disableAllTypes() {
 }
 
 
-function addTypeFilters() {
-    var count = 0;
-    var divid = "#pp_filter_level_0";
-    for (var key in FILTER_TYPES) {
-        $(divid).append("<a href=\"javascript:typeFilterClicked('" + key + "')\"><span id=\"pp_filter_type_" + key + "\" class=\"tag tag_selected tag_type tag_type_button tag_type_" + key + "\">"+ key + "</span></a>");
-        count += 1;
-        if (count >= 9) {
-            divid = "#pp_filter_level_1";
-        }
-    }
-    $("#pp_filter_level_0").append("<a href=\"javascript:enableAllTypes()\" class=\"button is-success is-outlined select-button\">Select all</a>");
-    $("#pp_filter_level_1").append("<a href=\"javascript:disableAllTypes()\" class=\"button is-info is-outlined select-button\">Deselect all</a>");
-}
-
-
 function initialize() {
     resetSelected(0);
     resetSelected(1);
@@ -362,8 +431,7 @@ function initialize() {
     resetSelected(4);
     resetSelected(5);
     loadData();
-
-    addTypeFilters();
-    $("#pp_filter_name").keyup(function(){nameFilterEntered()});
-    $("#pp_filter_reset").click(function(){resetFilters()});
+    console.log(TYPE_CHART);
 }
+
+
