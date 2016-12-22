@@ -98,7 +98,6 @@ function addAttacks(pkey, pindex) {
             }
         }
         if ("prevo" in POKEDEX[prevo1]) {
-            alert(1);
             var prevo2 = POKEDEX[prevo1]["prevo"];
             for (var attackkey in LEARNSETS[prevo2].learnset) {
                 if (attackkey in attackDict) {
