@@ -352,6 +352,13 @@ function filterByAll() {
         filterByName(true);
     }
     filterByType(true);
+    // Filter by evos
+    if ($("#pp_filter_preevos")[0].checked == false) {
+        filterPreEvos();
+    }
+    if ($("#pp_filter_nonmegas")[0].checked == false) {
+        filterNonMegas();
+    }
 }
 
 
@@ -359,6 +366,8 @@ function resetFilters() {
     FILTER_NAME = "";
     $("#pp_filter_name").val("");
     $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
+    $("#pp_filter_preevos")[0].checked = true;
+    $("#pp_filter_nonmegas")[0].checked = true;
     for (var key in FILTER_TYPES) {
         FILTER_TYPES[key] = true;
         $("#pp_filter_type_" + key).addClass("tag_selected");
@@ -380,6 +389,56 @@ function nameFilterEntered() {
         filterByAll();
     }
     previousEntry = FILTER_NAME;
+    displayResults();
+}
+
+
+function filterPreEvos() {
+    var dex = POKEDEX_FILTERED;
+    var copyPokedex = {};
+    for (var key in dex) {
+        if ("evos" in dex[key]) {
+        }
+        else {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
+function filterNonMegas() {
+    var dex = POKEDEX_FILTERED;
+    var copyPokedex = {};
+    for (var key in dex) {
+        if (dex[key].species.indexOf("-Mega") != -1) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
+function preEvosFilterClicked() {
+    var status = $("#pp_filter_preevos")[0].checked;
+    if (status == true) {
+        filterByAll();
+    }
+    else {
+        filterPreEvos();
+    }
+    displayResults();
+}
+
+
+function nonMegasFilterClicked() {
+    var status = $("#pp_filter_preevos")[0].checked;
+    if (status == true) {
+        filterByAll();
+    }
+    else {
+        filterNonMegas();
+    }
     displayResults();
 }
 
