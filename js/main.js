@@ -4,6 +4,7 @@ var POKEDEX = {};
 var POKEDEX_FILTERED = {};
 
 var FILTER_NAME = "";
+var FILTER_TYPES = {"Bug": true, "Dark": true, "Dragon": true, "Electric": true, "Fairy": true, "Fighting": true, "Fire": true, "Flying": true, "Ghost": true, "Grass": true, "Ground": true, "Ice": true, "Normal": true, "Poison": true, "Psychic": true, "Rock": true, "Steel": true, "Water": true};
 
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
@@ -23,9 +24,9 @@ function addSelected(pkey) {
     $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
     // Add the Pokemon types
     var types = POKEDEX[pkey].types;
-    $("#sp_box_" + index).find(".sp_type1").html("<span class=\"tag tag_type_" + types[0] + "\">"+ types[0] + "</span>");
+    $("#sp_box_" + index).find(".sp_type1").html("<span class=\"tag tag_type tag_type_" + types[0] + "\">"+ types[0] + "</span>");
     if (types.length == 2) {
-        $("#sp_box_" + index).find(".sp_type2").html("<span class=\"tag tag_type_" + types[1] + "\">"+ types[1] + "</span>");
+        $("#sp_box_" + index).find(".sp_type2").html("<span class=\"tag tag_type tag_type_" + types[1] + "\">"+ types[1] + "</span>");
     }
     // Add the Pokemon image
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
@@ -183,15 +184,18 @@ function getIconString(pobject) {
     else if (pobject.species.indexOf("-Meteor") != -1) {
         suffix += "-meteor";
     }
+    else if (pobject.species.indexOf("stic-F") != -1) {
+        suffix += "-female";
+    }
     return "<i class=\"image is-40x30 picons picon_" + suffix + "\"></i>";
 }
 
 
 function displayResults() {
-    $("#plistbox").html(""); // Clear the old results
+    $("#pp_results").html(""); // Clear the old results
     var wrapCount = 0;
     var currentColumn = 1;
-    $("#plistbox").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
+    $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
             $("#pp_row_" + currentColumn).append("<div class=\"column is-1\"><a title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key]) + "</a></div> ");
@@ -200,7 +204,7 @@ function displayResults() {
         if (wrapCount === 12) {
             wrapCount = 0;
             currentColumn += 1;
-            $("#plistbox").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
+            $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
         }
     }
 
@@ -234,12 +238,36 @@ function filterByName(useCurrent) {
 }
 
 
+function filterByType(useCurrent) {
+    if (useCurrent == true) {
+        var dex = POKEDEX_FILTERED;
+    }
+    else {
+        var dex = POKEDEX;
+    }
+    var copyPokedex = {};
+    console.log(FILTER_TYPES);
+    for (var key in dex) {
+        var types = dex[key].types;
+        console.log(types);
+        if (FILTER_TYPES[types[0]] == true) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+        else if (types.length > 1 && FILTER_TYPES[types[1]] == true) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
 function filterByAll() {
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
     // Filter by name
     if (FILTER_NAME != "") {
         filterByName(true);
     }
+    filterByType(true);
 }
 
 
@@ -247,6 +275,10 @@ function resetFilters() {
     FILTER_NAME = "";
     $("#pp_filter_name").val("");
     $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
+    for (var key in FILTER_TYPES) {
+        FILTER_TYPES[key] = true;
+        $("#pp_filter_type_" + key).addClass("tag_selected");
+    }
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
     displayResults();
 }
@@ -268,6 +300,60 @@ function nameFilterEntered() {
 }
 
 
+function typeFilterClicked(type) {
+    if (FILTER_TYPES[type] == true) {
+        // alert(1);
+        // Remove those types
+        FILTER_TYPES[type] = false;
+        $("#pp_filter_type_" + type).removeClass("tag_selected");
+        filterByType(true);
+        displayResults();
+    }
+    else {
+        // Add those types back in
+        FILTER_TYPES[type] = true;
+        $("#pp_filter_type_" + type).addClass("tag_selected");
+        filterByAll();
+        displayResults();
+    }
+}
+
+
+function enableAllTypes() {
+    for (var key in FILTER_TYPES) {
+        FILTER_TYPES[key] = true;
+        $("#pp_filter_type_" + key).addClass("tag_selected");
+    }
+    filterByAll();
+    displayResults();
+}
+
+
+function disableAllTypes() {
+    for (var key in FILTER_TYPES) {
+        FILTER_TYPES[key] = false;
+        $("#pp_filter_type_" + key).removeClass("tag_selected");
+    }
+    filterByType(true);
+    displayResults();
+}
+
+
+function addTypeFilters() {
+    var count = 0;
+    var divid = "#pp_filter_level_0";
+    for (var key in FILTER_TYPES) {
+        $(divid).append("<a href=\"javascript:typeFilterClicked('" + key + "')\"><span id=\"pp_filter_type_" + key + "\" class=\"tag tag_selected tag_type tag_type_button tag_type_" + key + "\">"+ key + "</span></a>");
+        count += 1;
+        if (count >= 9) {
+            divid = "#pp_filter_level_1";
+        }
+    }
+    $("#pp_filter_level_0").append("<a href=\"javascript:enableAllTypes()\" class=\"button is-success is-outlined select-button\">Select all</a>");
+    $("#pp_filter_level_1").append("<a href=\"javascript:disableAllTypes()\" class=\"button is-info is-outlined select-button\">Deselect all</a>");
+}
+
+
 function initialize() {
     resetSelected(0);
     resetSelected(1);
@@ -277,6 +363,7 @@ function initialize() {
     resetSelected(5);
     loadData();
 
+    addTypeFilters();
     $("#pp_filter_name").keyup(function(){nameFilterEntered()});
     $("#pp_filter_reset").click(function(){resetFilters()});
 }

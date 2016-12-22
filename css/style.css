@@ -1,22 +1,52 @@
+.select-button {
+    width: 100px;
+}
+
 .image.is-40x30 {
   height: 30px;
   width: 40px;
 }
 
+.tag_type {
+    width: 60px;
+}
+
+.tag_type_button {
+    opacity: 0.3;
+}
+
+.tag_selected {
+    /*border: 2px solid #dddddd;*/
+    /*box-shadow: 0px 2px 2px #888888;*/
+    opacity: 1;
+}
+
+.tag_selected:hover {
+    /*box-shadow: 0px 4px 2px #888888;*/
+    opacity: 0.7;
+}
+
+#pp_filter_level_0 {
+    margin-bottom: 5px;
+}
+#pp_filter_level_1 {
+    margin-top: 5px;
+}
+
 .tag_type_Bug {
-    background-color: OliveDrab;
+    background-color: #99cc00;
     color: white;
 }
 .tag_type_Dark {
-    background-color: Black;
+    background-color: #333300;
     color: white;
 }
 .tag_type_Dragon {
-    background-color: DarkSlateBlue;
+    background-color: #003399;
     color: white;
 }
 .tag_type_Electric {
-    background-color: Gold;
+    background-color: #F0D83C;
     color: white;
 }
 .tag_type_Fairy {
@@ -32,7 +62,7 @@
     color: white;
 }
 .tag_type_Flying {
-    background-color: LightBlue;
+    background-color: #6699ff;
     color: white;
 }
 .tag_type_Ghost {
@@ -40,7 +70,7 @@
     color: white;
 }
 .tag_type_Grass {
-    background-color: SeaGreen;
+    background-color: #009933;
     color: white;
 }
 .tag_type_Ground {
@@ -60,7 +90,7 @@
     color: white;
 }
 .tag_type_Psychic {
-    background-color: Fuchsia;
+    background-color: #cc3399;
     color: white;
 }
 .tag_type_Rock {
@@ -68,7 +98,7 @@
     color: white;
 }
 .tag_type_Steel {
-    background-color: DarkGrey;
+    background-color: #4c5967;
     color: white;
 }
 .tag_type_Water {

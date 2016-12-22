@@ -10,10 +10,11 @@
 
 <body onload="initialize()">
 
-<section class="hero is-primary">
+<section class="hero is-info">
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">Pokemon Team Builder</h1>
+            <h1 class="title">Pok&eacute;mon Team Builder</h1>
+            <h2 class="subtitle">Made for Pok&eacute;mon Sun & Moon</h2>
         </div>
     </div>
 </section>
@@ -21,7 +22,8 @@
 <section class="section">
     <div class="container">
         <div class="columns">
-            <div class="column is-one-third">
+            <div class="column is-5">
+                <h2 class="subtitle"><strong>Selected Pok&eacute;mon</strong></h2>
                 <div id="sp_box_0" class="box">
                 </div>
                 <div id="sp_box_1" class="box">
@@ -36,7 +38,8 @@
                 </div>
             </div>
 
-            <div class="column is-two-thirds">
+            <div class="column is-7">
+                <h2 class="subtitle"><strong>Filters</strong></h2>
                 <nav class="level">
                     <div class="level-left">
                         <div class="level-item">
@@ -45,11 +48,16 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <a id="pp_filter_reset" class="button is-danger is-outlined">Reset filters</a>
+                            <a id="pp_filter_reset" class="button is-danger">Reset all filters</a>
                         </div>
                     </div>
                 </nav>
-                <div id="plistbox">
+                <nav id="pp_filter_level_0" class="level">
+                </nav>
+                <nav id="pp_filter_level_1" class="level">
+                </nav>
+                <h2 class="subtitle"><strong>Pok&eacute;mon List</strong></h2>
+                <div id="pp_results">
                 </div>
             </div>
         </div>
@@ -60,7 +68,9 @@
 <footer class="footer">
     <div class="container">
         <div class="content has-text-centered">
-            <p><strong>Pokemon Team Builder</strong> by Tiberiu Vilcu.</p>
+            <p><strong>Pok&eacute;mon Team Builder</strong> by Tiberiu Vilcu</p>
+            <p>Still a work in progress...</p>
+            <p>Styles from Bulma. Data from Pokemon Showdown. Images from PokemonDB.</p>
         </div>
     </div>
 </footer>
@@ -78,10 +88,8 @@
         </div>
         <div class="level-right">
             <div class="sp_type1 level-item">
-                <!-- <span class="tag"></p> -->
             </div>
             <div class="sp_type2 level-item">
-                <!-- <span class="tag"></p> -->
             </div>
             <div class="sp_delete level-item">
             </div>
