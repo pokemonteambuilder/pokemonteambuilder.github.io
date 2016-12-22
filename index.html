@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="css/positions.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/typechart.js"></script>
+<script type="text/javascript" src="js/moves.js"></script>
+<script type="text/javascript" src="js/learnsets.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </head>
 
@@ -159,6 +161,67 @@
                         <span class="tag tag_type tag_type_Water">Water</span><br><strong id="tr_num_Water">x 0</strong>
                     </div>
                 </nav>
+                <h2 class="subtitle"><strong>Type Coverage</strong></h2>
+                <nav class="level types_row_top">
+                    <div id="tc_item_Bug" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Bug">Bug</span><br><strong id="tc_num_Bug">x 0</strong>
+                    </div>
+                    <div id="tc_item_Dark" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Dark">Dark</span><br><strong id="tc_num_Dark">x 0</strong>
+                    </div>
+                    <div id="tc_item_Dragon" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Dragon">Dragon</span><br><strong id="tc_num_Dragon">x 0</strong>
+                    </div>
+                    <div id="tc_item_Electric" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Electric">Electric</span><br><strong id="tc_num_Electric">x 0</strong>
+                    </div>
+                    <div id="tc_item_Fairy" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Fairy">Fairy</span><br><strong id="tc_num_Fairy">x 0</strong>
+                    </div>
+                    <div id="tc_item_Fighting" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Fighting">Fighting</span><br><strong id="tc_num_Fighting">x 0</strong>
+                    </div>
+                </nav>
+                <nav class="level types_row_top">
+                    <div id="tc_item_Fire" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Fire">Fire</span><br><strong id="tc_num_Fire">x 0</strong>
+                    </div>
+                    <div id="tc_item_Flying" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Flying">Flying</span><br><strong id="tc_num_Flying">x 0</strong>
+                    </div>
+                    <div id="tc_item_Ghost" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Ghost">Ghost</span><br><strong id="tc_num_Ghost">x 0</strong>
+                    </div>
+                    <div id="tc_item_Grass" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Grass">Grass</span><br><strong id="tc_num_Grass">x 0</strong>
+                    </div>
+                    <div id="tc_item_Ground" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Ground">Ground</span><br><strong id="tc_num_Ground">x 0</strong>
+                    </div>
+                    <div id="tc_item_Ice" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Ice">Ice</span><br><strong id="tc_num_Ice">x 0</strong>
+                    </div>
+                </nav>
+                <nav class="level types_row_bottom">
+                    <div id="tc_item_Normal" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Normal">Normal</span><br><strong id="tc_num_Normal">x 0</strong>
+                    </div>
+                    <div id="tc_item_Poison" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Poison">Poison</span><br><strong id="tc_num_Poison">x 0</strong>
+                    </div>
+                    <div id="tc_item_Psychic" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Psychic">Psychic</span><br><strong id="tc_num_Psychic">x 0</strong>
+                    </div>
+                    <div id="tc_item_Rock" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Rock">Rock</span><br><strong id="tc_num_Rock">x 0</strong>
+                    </div>
+                    <div id="tc_item_Steel" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Steel">Steel</span><br><strong id="tc_num_Steel">x 0</strong>
+                    </div>
+                    <div id="tc_item_Water" class="level-item chart_type_box">
+                        <span class="tag tag_type tag_type_Water">Water</span><br><strong id="tc_num_Water">x 0</strong>
+                    </div>
+                </nav>
             </div>
 
             <div class="column is-7">
@@ -246,6 +309,50 @@
             </div>
             <div class="sp_delete level-item">
             </div>
+        </div>
+    </nav>
+    <nav class="level types_row_top sp_attack_row hidden">
+        <div class="level-item">
+            <span class="sp_attack1_type tag tag_type invisible">Type</span><br>
+        </div>
+        <div class="level-item">
+            <span class="select">
+                <select class="sp_attack1" onchange="attackChanged(this, 'sp_attack1');">
+                    <option>-</option>
+                </select>
+          </span>
+        </div>
+        <div class="level-item">
+            <span class="sp_attack2_type tag tag_type invisible">Type</span><br>
+        </div>
+        <div class="level-item">
+            <span class="select">
+                <select class="sp_attack2" onchange="attackChanged(this, 'sp_attack2');">
+                    <option>-</option>
+                </select>
+          </span>
+        </div>
+    </nav>
+    <nav class="level types_row_bottom sp_attack_row hidden">
+        <div class="level-item">
+            <span class="sp_attack3_type tag tag_type invisible">Type</span><br>
+        </div>
+        <div class="level-item">
+            <span class="select">
+                <select class="sp_attack3" onchange="attackChanged(this, 'sp_attack3');">
+                    <option>-</option>
+                </select>
+          </span>
+        </div>
+        <div class="level-item">
+            <span class="sp_attack4_type tag tag_type invisible">Type</span><br>
+        </div>
+        <div class="level-item">
+            <span class="select">
+                <select class="sp_attack4" onchange="attackChanged(this, 'sp_attack4');">
+                    <option>-</option>
+                </select>
+          </span>
         </div>
     </nav>
 </div>

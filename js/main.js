@@ -3,6 +3,8 @@
 var POKEDEX = {};
 var POKEDEX_FILTERED = {};
 
+var ATTACK_INVINDEX = {};
+
 var FILTER_NAME = "";
 var FILTER_TYPES = {"Bug": true, "Dark": true, "Dragon": true, "Electric": true, "Fairy": true, "Fighting": true, "Fire": true, "Flying": true, "Ghost": true, "Grass": true, "Ground": true, "Ice": true, "Normal": true, "Poison": true, "Psychic": true, "Rock": true, "Steel": true, "Water": true};
 
@@ -32,6 +34,8 @@ function addSelected(pkey) {
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
     // Add the delete button
     $("#sp_box_" + index).find(".sp_delete").html("<a href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
+    // Add the attacks
+    addAttacks(pkey, index);
 
     calculateWeaknesses();
     calculateResistances();
@@ -57,11 +61,86 @@ function removeSelected(pkey) {
 
     calculateWeaknesses();
     calculateResistances();
+    calculateCoverage();
 }
 
 
 function resetSelected(pindex) {
     $("#sp_box_" + pindex).html($("#sp_box_template").html());
+}
+
+
+function addAttacks(pkey, pindex) {
+    pkey = POKEDEX[pkey].species.toLowerCase();
+    if (pkey.indexOf("-alola") != -1) {
+        pkey = pkey.substring(0, pkey.indexOf("-")) + "alola";
+    }
+    else if (pkey.indexOf("-") != -1) {
+        pkey = pkey.substring(0, pkey.indexOf("-"));
+    }
+    if (pkey == "jangmo" || pkey == "hakamo" || pkey == "kommo") {
+        pkey += "o";
+    }
+    else if (pkey == "ho") {
+        pkey = "hooh";
+    }
+    else if (pkey == "type: null") {
+        pkey = "typenull";
+    }
+    var attackDict = JSON.parse(JSON.stringify(LEARNSETS[pkey].learnset));
+    if ("prevo" in POKEDEX[pkey]) {
+        var prevo1 = POKEDEX[pkey]["prevo"];
+        for (var attackkey in LEARNSETS[prevo1].learnset) {
+            if (attackkey in attackDict) {
+            }
+            else {
+                attackDict[attackkey] = LEARNSETS[prevo1].learnset;
+            }
+        }
+        if ("prevo" in POKEDEX[prevo1]) {
+            alert(1);
+            var prevo2 = POKEDEX[prevo1]["prevo"];
+            for (var attackkey in LEARNSETS[prevo2].learnset) {
+                if (attackkey in attackDict) {
+                }
+                else {
+                    attackDict[attackkey] = LEARNSETS[prevo2].learnset;
+                }
+            }
+        }
+    }
+    var keys = Object.keys(attackDict);
+    keys.sort();
+    for (var i = 0; i < keys.length; i++) {
+        var toAppend = "<option>" + MOVEDEX[keys[i]].name +"</option>";
+        ATTACK_INVINDEX[MOVEDEX[keys[i]].name] = keys[i];
+        $("#sp_box_" + pindex).find(".sp_attack1").append(toAppend);
+        $("#sp_box_" + pindex).find(".sp_attack2").append(toAppend);
+        $("#sp_box_" + pindex).find(".sp_attack3").append(toAppend);
+        $("#sp_box_" + pindex).find(".sp_attack4").append(toAppend);
+    }
+    $("#sp_box_" + pindex).find(".sp_attack_row").removeClass("hidden");
+}
+
+
+function attackChanged(selector, whichatk) {
+    var label = $(selector).parent().parent().parent().find("." + whichatk + "_type");
+    if (selector.value == "-") {
+        label.addClass("invisible");
+        return;
+    }
+    var attackkey = ATTACK_INVINDEX[selector.value];
+    var type = MOVEDEX[attackkey].type;
+    var classes = $(label).attr("class").split(' ');
+    for (var i = 0; i < classes.length; i++) {
+        if (classes[i].indexOf("tag_type_") != -1) {
+            $(label).removeClass(classes[i]);
+        }
+    }
+    $(label).addClass("tag_type_" + type);
+    $(label).text(type);
+    $(label).removeClass("invisible");
+    calculateCoverage();
 }
 
 
@@ -218,15 +297,12 @@ function displayResults() {
     var currentType = "";
     $("i.picons").hover(function() {
         var $icon = $(this);
-        
         var pkey = $icon[0].id;
         if (pkey in POKEDEX) {
             currentType = POKEDEX[pkey].types[0];
             // $icon.parent().parent().addClass("picon_border");
             $icon.parent().parent().addClass("picon_border_" + currentType);
-            console.log($icon.parent());
         }
-        console.log($icon[0].id);
         shakeController = setInterval(function() {$icon.toggleClass("picon_move");}, 175);
     },
     function() {
@@ -272,6 +348,35 @@ function calculateWeaknesses() {
         }
         else {
             $("#tw_num_" + attack).removeClass("type_info_danger");
+        }
+    }
+}
+
+
+function calculateCoverage() {
+    for (var defense in TYPE_CHART) {
+        var count = 0;
+        for (var i = 0; i < numSelected; i++) {
+            for (var j = 1; j <= 4; j++) {
+                var attackname = $("#sp_box_" + i).find(".sp_attack" + j).val();
+                if (attackname == "-") {
+                    continue;
+                }
+                if (MOVEDEX[ATTACK_INVINDEX[attackname]].category == "Status") {
+                    continue;
+                }
+                var attack = MOVEDEX[ATTACK_INVINDEX[attackname]].type;
+                if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                    count += 1;
+                }
+            }
+        }
+        $("#tc_num_" + defense).text("x " + count);
+        if (count == 0 && numSelected > 0) {
+            $("#tc_num_" + defense).addClass("type_info_danger");
+        }
+        else {
+            $("#tc_num_" + defense).removeClass("type_info_danger");
         }
     }
 }
@@ -341,10 +446,8 @@ function filterByType(useCurrent) {
         var dex = POKEDEX;
     }
     var copyPokedex = {};
-    console.log(FILTER_TYPES);
     for (var key in dex) {
         var types = dex[key].types;
-        console.log(types);
         if (FILTER_TYPES[types[0]] == true) {
             copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
         }
@@ -501,7 +604,4 @@ function initialize() {
     resetSelected(4);
     resetSelected(5);
     loadData();
-    console.log(TYPE_CHART);
 }
-
-
