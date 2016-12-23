@@ -75,7 +75,7 @@ function resetSelected(pindex) {
 
 
 function generateShareLink() {
-    var prefix = "https://pokemonteambuilder.github.io/#";
+    var prefix = "http://pokemonteambuilder.com/#";
     var middle = "";
     for (var i = 0; i < numSelected; i++) {
         middle += "p_" + currentSelected[i] + "+";
@@ -186,7 +186,7 @@ function attackChanged(selector, whichatk) {
 
 function loadData() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false );
+    xmlHttp.open( "GET", "http://pokemonteambuilder.com/data/pokedex.json", false );
     xmlHttp.send( null );
     POKEDEX = JSON.parse(xmlHttp.responseText);
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
