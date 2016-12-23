@@ -320,7 +320,7 @@ function displayResults() {
     $("#pp_results").html(""); // Clear the old results
     var wrapCount = 0;
     var currentColumn = 1;
-    $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
+    $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless is-mobile\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
             $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
@@ -329,7 +329,7 @@ function displayResults() {
         if (wrapCount === 12) {
             wrapCount = 0;
             currentColumn += 1;
-            $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless\"></div>");
+            $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless is-mobile\"></div>");
         }
     }
 
@@ -340,7 +340,6 @@ function displayResults() {
         var pkey = $icon[0].id;
         if (pkey in POKEDEX) {
             currentType = POKEDEX[pkey].types[0];
-            // $icon.parent().parent().addClass("picon_border");
             $icon.parent().parent().addClass("picon_border_" + currentType);
         }
         shakeController = setInterval(function() {$icon.toggleClass("picon_move");}, 175);

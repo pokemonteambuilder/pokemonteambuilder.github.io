@@ -32,6 +32,12 @@ a.serebii_link:hover {
     width: 60px;
 }
 
+.type_chart_padding {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 0px !important;
+}
+
 .tag_type_button {
     opacity: 0.4;
 }
