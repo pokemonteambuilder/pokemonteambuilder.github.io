@@ -23,6 +23,11 @@ a.serebii_link:hover {
   width: 40px;
 }
 
+.image.is-logo {
+    height: 80px;
+    width: 218px;
+}
+
 .tag_type {
     width: 60px;
 }
