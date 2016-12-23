@@ -18,14 +18,6 @@
     visibility: hidden;
 }
 
-a.serebii_link {
-    color: #4a4a4a;
-}
-
-a.serebii_link:hover {
-    border-bottom: 2px dotted #4a4a4a;
-}
-
 .image.is-40x30 {
   height: 30px;
   width: 40px;
@@ -64,6 +56,22 @@ a.serebii_link:hover {
 
 .types_row_bottom {
     margin-top: 6px !important;
+}
+
+a.serebii_link, a.serebii_link:visited {
+  color: #4a4a4a;
+}
+
+a.serebii_link:hover, a.serebii_link:visited:hover {
+  color: #363636;
+}
+
+a.serebii_link:not(.icon), a.serebii_link:visited:not(.icon) {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+a.serebii_link:not(.icon):hover, a.serebii_link:visited:not(.icon):hover {
+  border-bottom-color: #00d1b2;
 }
 
 

@@ -704,16 +704,18 @@ function loadedData(data) {
 
 
 var currentTimeout;
+var secondTimeout;
 var currentColor;
 function showNotification(message, classcolor, duration) {
     clearTimeout(currentTimeout);
+    clearTimeout(secondTimeout);
     $("#page_notification").hide(0);
     $("#page_notification").removeClass(currentColor);
     $("#page_notification").text(message);
     $("#page_notification").addClass(classcolor);
     currentColor = classcolor;
     $("#page_notification").show(duration / 4);
-    currentTimeout = setTimeout(function() {$("#page_notification").hide(duration / 4);setTimeout(function() {$("#page_notification").removeClass(classcolor);}, duration / 4);}, duration);
+    currentTimeout = setTimeout(function() {$("#page_notification").hide(duration / 4);secondTimeout=setTimeout(function() {$("#page_notification").removeClass(classcolor);}, duration / 4);}, duration);
 }
 
 
