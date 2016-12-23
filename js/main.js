@@ -19,7 +19,7 @@ function addSelected(pkey, notify, reloadLink) {
         if (currentSelected[i] === pkey) {
             showNotification("You already have this Pokémon.", "is-warning", 800);
             return;
-        } // TOOD: return warning message
+        }
     }
     // Exit when the Pokemon cannot be added
     if (numSelected >= 6) {
@@ -27,7 +27,7 @@ function addSelected(pkey, notify, reloadLink) {
             showNotification("You already have 6 Pokémon.", "is-warning", 800);
             return;
         }
-    } // TODO: return warning message
+    }
     // Add the Pokemon to the data structures
     numSelected += 1;
     var index = numSelected - 1;
@@ -73,7 +73,10 @@ function removeSelected(pkey) {
         var prev = curr - 1;
         currentSelected[prev] = currentSelected[curr];
         $("#sp_box_" + prev).html($("#sp_box_" + curr).html());
-        // TODO: reset attacks!
+        $("#sp_box_" + prev).find(".sp_attack1").val($("#sp_box_" + curr).find(".sp_attack1").val());
+        $("#sp_box_" + prev).find(".sp_attack2").val($("#sp_box_" + curr).find(".sp_attack2").val());
+        $("#sp_box_" + prev).find(".sp_attack3").val($("#sp_box_" + curr).find(".sp_attack3").val());
+        $("#sp_box_" + prev).find(".sp_attack4").val($("#sp_box_" + curr).find(".sp_attack4").val());
     }
     currentSelected[numSelected - 1] = "";
     resetSelected(numSelected - 1);
