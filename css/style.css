@@ -10,6 +10,14 @@
     visibility: hidden;
 }
 
+a.serebii_link {
+    color: #4a4a4a;
+}
+
+a.serebii_link:hover {
+    border-bottom: 2px dotted #4a4a4a;
+}
+
 .image.is-40x30 {
   height: 30px;
   width: 40px;

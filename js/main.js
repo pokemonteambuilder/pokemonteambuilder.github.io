@@ -24,6 +24,7 @@ function addSelected(pkey) {
     currentSelected[index] = pkey;
     // Add the Pokemon name
     $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
+    $("#sp_box_" + index).find(".sp_name").html("<a title=\"Poked&eacute;x entry\" class=\"serebii_link\" target=\"_blank\" href=\"" + getSerebiiLink(pkey) + "\">" + POKEDEX[pkey].species + "</a>");
     // Add the Pokemon types
     var types = POKEDEX[pkey].types;
     $("#sp_box_" + index).find(".sp_type1").html("<span class=\"tag tag_type tag_type_" + types[0] + "\">"+ types[0] + "</span>");
@@ -33,7 +34,7 @@ function addSelected(pkey) {
     // Add the Pokemon image
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
     // Add the delete button
-    $("#sp_box_" + index).find(".sp_delete").html("<a href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
+    $("#sp_box_" + index).find(".sp_delete").html("<a title=\"Remove\" href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
     // Add the attacks
     addAttacks(pkey, index);
 
@@ -67,6 +68,20 @@ function removeSelected(pkey) {
 
 function resetSelected(pindex) {
     $("#sp_box_" + pindex).html($("#sp_box_template").html());
+}
+
+
+function getSerebiiLink(pkey) {
+    var prefix = "http://www.serebii.net/pokedex-sm/";
+    var suffix = ".shtml";
+    var num = POKEDEX[pkey]["num"];
+    if (num < 10) {
+        num = "00" + num;
+    }
+    else if (num < 100) {
+        num = "0" + num;
+    }
+    return prefix + num + suffix;
 }
 
 
