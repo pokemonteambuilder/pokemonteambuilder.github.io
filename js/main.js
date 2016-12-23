@@ -13,7 +13,7 @@ var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
 
-function addSelected(pkey, notify) {
+function addSelected(pkey, notify, reloadLink) {
     console.log(numSelected);
     for (var i = 0; i < 6; i++) {
         if (currentSelected[i] === pkey) {
@@ -33,6 +33,7 @@ function addSelected(pkey, notify) {
     var index = numSelected - 1;
     currentSelected[index] = pkey;
     // Add the Pokemon name
+    console.log(pkey);
     $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
     $("#sp_box_" + index).find(".sp_name").html("<a title=\"Poked&eacute;x entry\" class=\"serebii_link\" target=\"_blank\" href=\"" + getSerebiiLink(pkey) + "\">" + POKEDEX[pkey].species + "</a>");
     // Add the Pokemon types
@@ -54,7 +55,9 @@ function addSelected(pkey, notify) {
 
     calculateWeaknesses();
     calculateResistances();
-    generateShareLink();
+    if (reloadLink == true) {
+        generateShareLink();
+    }
 }
 
 
@@ -70,6 +73,7 @@ function removeSelected(pkey) {
         var prev = curr - 1;
         currentSelected[prev] = currentSelected[curr];
         $("#sp_box_" + prev).html($("#sp_box_" + curr).html());
+        // TODO: reset attacks!
     }
     currentSelected[numSelected - 1] = "";
     resetSelected(numSelected - 1);
@@ -327,7 +331,7 @@ function displayResults() {
     $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless is-mobile\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
-            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "', true)\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
+            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "', true, true)\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
         }
         wrapCount += 1;
         if (wrapCount === 12) {
@@ -637,14 +641,16 @@ function disableAllTypes() {
 function loadFromHash(hash) {
     hash = hash.substring(1, hash.length);
     var parts = hash.split("+");
+    console.log(parts);
     var pcount = -1;
     var acount = 0;
     for (var hashi = 0; hashi < parts.length; hashi++) {
         var part = parts[hashi];
+        console.log(hashi + ": " + part);
         if (part.indexOf("p_") != -1) {
             pcount += 1;
             acount = 1;
-            addSelected(part.substring(2, part.length), false);
+            addSelected(part.substring(2, part.length), false, false);
         }
         else if (part.indexOf("a_") != -1) {
             var attack = MOVEDEX[part.substring(2, part.length)].name;
@@ -677,7 +683,7 @@ function loadData() {
 var startTimeout;
 function initialize() {
     $.getJSON("http://pokemonteambuilder.com/data/pokedex.json", function(data){loadedData(data);});
-    startTimeout = setTimeout(function() {$("#page_notification").text("Loading, please wait...");$("#page_notification").addClass("is-danger");$("#page_notification").show(100);}, 150)
+    startTimeout = setTimeout(function() {$("#page_notification").text("Loading, please wait...");$("#page_notification").addClass("is-danger");$("#page_notification").show(100);}, 100)
     resetSelected(0);
     resetSelected(1);
     resetSelected(2);
@@ -694,9 +700,7 @@ function loadedData(data) {
     if (document.location.hash != "") {
         loadFromHash(document.location.hash);
     }
-    else {
-        generateShareLink();
-    }
+    generateShareLink();
     clearTimeout(startTimeout);
     $("#page_notification").hide(100);
     setTimeout(function() {$("#page_notification").removeClass("is-danger");}, 100);
