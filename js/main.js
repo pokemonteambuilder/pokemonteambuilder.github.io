@@ -40,6 +40,7 @@ function addSelected(pkey) {
 
     calculateWeaknesses();
     calculateResistances();
+    generateShareLink();
 }
 
 
@@ -63,11 +64,32 @@ function removeSelected(pkey) {
     calculateWeaknesses();
     calculateResistances();
     calculateCoverage();
+    generateShareLink();
 }
 
 
 function resetSelected(pindex) {
     $("#sp_box_" + pindex).html($("#sp_box_template").html());
+}
+
+
+function generateShareLink() {
+    var prefix = "https://pokemonteambuilder.github.io/#";
+    var middle = "";
+    for (var i = 0; i < numSelected; i++) {
+        middle += "p_" + currentSelected[i] + "+";
+        for (var j = 1; j <= 4; j++) {
+            var attack = $("#sp_box_" + i).find(".sp_attack" + j).val();
+            if (attack != "-") {
+                var akey = ATTACK_INVINDEX[attack];
+                middle += "a_" + akey + "+";
+            }
+        }
+    }
+    middle = middle.substring(0, middle.length - 1);
+    document.location.hash = middle;
+    $("#sp_share_link").val(prefix + middle);
+    console.log(document.location.hash);
 }
 
 
@@ -155,6 +177,7 @@ function attackChanged(selector, whichatk) {
     $(label).text(type);
     $(label).removeClass("invisible");
     calculateCoverage();
+    generateShareLink();
 }
 
 
@@ -610,6 +633,41 @@ function disableAllTypes() {
 }
 
 
+function loadFromHash(hash) {
+    console.log(hash);
+    hash = hash.substring(1, hash.length);
+    console.log(hash);
+    var parts = hash.split("+");
+    console.log(parts);
+    var pcount = -1;
+    var acount = 0;
+    for (var hashi = 0; hashi < parts.length; hashi++) {
+        var part = parts[hashi];
+        console.log(part);
+        if (part.indexOf("p_") != -1) {
+            pcount += 1;
+            acount = 1;
+            console.log(part.substring(2, part.length));
+            addSelected(part.substring(2, part.length));
+        }
+        else if (part.indexOf("a_") != -1) {
+            var attack = MOVEDEX[part.substring(2, part.length)].name;
+            var type = MOVEDEX[part.substring(2, part.length)].type;
+            $("#sp_box_" + pcount).find(".sp_attack" + acount).val(attack);
+            var label = $("#sp_box_" + pcount).find(".sp_attack" + acount).parent().parent().parent().find(".sp_attack" + acount + "_type");
+            $(label).addClass("tag_type_" + type);
+            $(label).text(type);
+            $(label).removeClass("invisible");
+            acount += 1;
+        }
+        if (pcount >= 7 || acount >= 5) {
+            return;
+        }
+    }
+    calculateCoverage();
+}
+
+
 function initialize() {
     resetSelected(0);
     resetSelected(1);
@@ -618,4 +676,61 @@ function initialize() {
     resetSelected(4);
     resetSelected(5);
     loadData();
+    if (document.location.hash != "") {
+        loadFromHash(document.location.hash);
+    }
+    else {
+        generateShareLink();
+    }
+}
+
+
+function copyToClipboard(elem) {
+      // create hidden text element, if it doesn't already exist
+    var targetId = "_hiddenCopyText_";
+    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+    var origSelectionStart, origSelectionEnd;
+    if (isInput) {
+        // can just use the original source element for the selection and copy
+        target = elem;
+        origSelectionStart = elem.selectionStart;
+        origSelectionEnd = elem.selectionEnd;
+    } else {
+        // must use a temporary form element for the selection and copy
+        target = document.getElementById(targetId);
+        if (!target) {
+            var target = document.createElement("textarea");
+            target.style.position = "absolute";
+            target.style.left = "-9999px";
+            target.style.top = "0";
+            target.id = targetId;
+            document.body.appendChild(target);
+        }
+        target.textContent = elem.textContent;
+    }
+    // select the content
+    var currentFocus = document.activeElement;
+    target.focus();
+    target.setSelectionRange(0, target.value.length);
+    
+    // copy the selection
+    var succeed;
+    try {
+          succeed = document.execCommand("copy");
+    } catch(e) {
+        succeed = false;
+    }
+    // restore original focus
+    if (currentFocus && typeof currentFocus.focus === "function") {
+        currentFocus.focus();
+    }
+    
+    if (isInput) {
+        // restore prior selection
+        elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+    } else {
+        // clear temporary content
+        target.textContent = "";
+    }
+    return succeed;
 }
