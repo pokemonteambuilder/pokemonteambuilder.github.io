@@ -660,8 +660,8 @@ function loadFromHash(hash) {
             $(label).removeClass("invisible");
             acount += 1;
         }
-        if (pcount >= 7 || acount >= 5) {
-            return;
+        if (pcount >= 7 || acount >= 6) {
+            break;
         }
     }
     calculateCoverage();
