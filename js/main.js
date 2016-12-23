@@ -90,7 +90,6 @@ function generateShareLink() {
     middle = middle.substring(0, middle.length - 1);
     document.location.hash = middle;
     $("#sp_share_link").val(prefix + middle);
-    console.log(document.location.hash);
 }
 
 
@@ -112,6 +111,9 @@ function addAttacks(pkey, pindex) {
     pkey = POKEDEX[pkey].species.toLowerCase();
     if (pkey.indexOf("-alola") != -1) {
         pkey = pkey.substring(0, pkey.indexOf("-")) + "alola";
+    }
+    else if (pkey.indexOf("nidoran") != -1) {
+        pkey = pkey.substring(0, pkey.indexOf("-")) + pkey.substring(pkey.indexOf("-") + 1, pkey.length);
     }
     else if (pkey.indexOf("-") != -1) {
         pkey = pkey.substring(0, pkey.indexOf("-"));
@@ -630,20 +632,15 @@ function disableAllTypes() {
 
 
 function loadFromHash(hash) {
-    console.log(hash);
     hash = hash.substring(1, hash.length);
-    console.log(hash);
     var parts = hash.split("+");
-    console.log(parts);
     var pcount = -1;
     var acount = 0;
     for (var hashi = 0; hashi < parts.length; hashi++) {
         var part = parts[hashi];
-        console.log(part);
         if (part.indexOf("p_") != -1) {
             pcount += 1;
             acount = 1;
-            console.log(part.substring(2, part.length));
             addSelected(part.substring(2, part.length));
         }
         else if (part.indexOf("a_") != -1) {
