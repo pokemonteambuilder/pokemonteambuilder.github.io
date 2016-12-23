@@ -1,5 +1,5 @@
 .select-button {
-    width: 100px;
+    width: 112px;
 }
 
 .hidden {
@@ -28,7 +28,7 @@ a.serebii_link:hover {
 }
 
 .tag_type_button {
-    opacity: 0.3;
+    opacity: 0.4;
 }
 
 .tag_selected {
@@ -40,11 +40,11 @@ a.serebii_link:hover {
 }
 
 .types_row_top {
-    margin-bottom: 5px !important;
+    margin-bottom: 6px !important;
 }
 
 .types_row_bottom {
-    margin-top: 5px !important;
+    margin-top: 6px !important;
 }
 
 

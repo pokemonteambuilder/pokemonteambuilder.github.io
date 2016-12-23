@@ -264,48 +264,45 @@
                 <nav class="level">
                     <div class="level-left">
                         <div class="level-item">
-                            <input id="pp_filter_name" class="input" type="text" onkeyup="nameFilterEntered()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Enter text to filter by name">
-                        </div>
-                        <div class="level-item">
-                            <label class="checkbox">
-                                <input id="pp_filter_preevos" type="checkbox" onchange="preEvosFilterClicked()" checked> Pre-evolutions
-                            </label>
-                        </div>
-                        <div class="level-item">
-                            <label class="checkbox">
-                                <input id="pp_filter_nonmegas" type="checkbox" onchange="nonMegasFilterClicked()" checked> Non-megas
-                            </label>
+                            <input id="pp_filter_name" class="input" type="text" onkeyup="nameFilterEntered()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Enter text to filter by name" style="min-width:240px;">
                         </div>
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <a href="javascript:resetFilters()" class="button is-danger">Reset all filters</a>
+                            <label class="checkbox">
+                                <input id="pp_filter_preevos" type="checkbox" onchange="preEvosFilterClicked()"> Complete evolutions only
+                            </label>
+                        </div>
+                        <div class="level-item">
+                            <label class="checkbox">
+                                <input id="pp_filter_nonmegas" type="checkbox" onchange="nonMegasFilterClicked()"> Mega evolutions only
+                            </label>
                         </div>
                     </div>
                 </nav>
                 <nav class="level types_row_top">
-                    <a href="javascript:typeFilterClicked('Bug')"><span id="pp_filter_type_Bug" class="tag tag_selected tag_type tag_type_button tag_type_Bug">Bug</span></a>
-                    <a href="javascript:typeFilterClicked('Dark')"><span id="pp_filter_type_Dark" class="tag tag_selected tag_type tag_type_button tag_type_Dark">Dark</span></a>
-                    <a href="javascript:typeFilterClicked('Dragon')"><span id="pp_filter_type_Dragon" class="tag tag_selected tag_type tag_type_button tag_type_Dragon">Dragon</span></a>
-                    <a href="javascript:typeFilterClicked('Electric')"><span id="pp_filter_type_Electric" class="tag tag_selected tag_type tag_type_button tag_type_Electric">Electric</span></a>
-                    <a href="javascript:typeFilterClicked('Fairy')"><span id="pp_filter_type_Fairy" class="tag tag_selected tag_type tag_type_button tag_type_Fairy">Fairy</span></a>
-                    <a href="javascript:typeFilterClicked('Fighting')"><span id="pp_filter_type_Fighting" class="tag tag_selected tag_type tag_type_button tag_type_Fighting">Fighting</span></a>
-                    <a href="javascript:typeFilterClicked('Fire')"><span id="pp_filter_type_Fire" class="tag tag_selected tag_type tag_type_button tag_type_Fire">Fire</span></a>
-                    <a href="javascript:typeFilterClicked('Flying')"><span id="pp_filter_type_Flying" class="tag tag_selected tag_type tag_type_button tag_type_Flying">Flying</span></a>
-                    <a href="javascript:typeFilterClicked('Ghost')"><span id="pp_filter_type_Ghost" class="tag tag_selected tag_type tag_type_button tag_type_Ghost">Ghost</span></a>
-                    <a href="javascript:enableAllTypes()" class="button is-success is-outlined select-button">Select all</a>
+                    <a href="javascript:typeFilterClicked('Bug')"><span id="pp_filter_type_Bug" class="tag tag_type tag_type_button tag_type_Bug">Bug</span></a>
+                    <a href="javascript:typeFilterClicked('Dark')"><span id="pp_filter_type_Dark" class="tag tag_type tag_type_button tag_type_Dark">Dark</span></a>
+                    <a href="javascript:typeFilterClicked('Dragon')"><span id="pp_filter_type_Dragon" class="tag tag_type tag_type_button tag_type_Dragon">Dragon</span></a>
+                    <a href="javascript:typeFilterClicked('Electric')"><span id="pp_filter_type_Electric" class="tag tag_type tag_type_button tag_type_Electric">Electric</span></a>
+                    <a href="javascript:typeFilterClicked('Fairy')"><span id="pp_filter_type_Fairy" class="tag tag_type tag_type_button tag_type_Fairy">Fairy</span></a>
+                    <a href="javascript:typeFilterClicked('Fighting')"><span id="pp_filter_type_Fighting" class="tag tag_type tag_type_button tag_type_Fighting">Fighting</span></a>
+                    <a href="javascript:typeFilterClicked('Fire')"><span id="pp_filter_type_Fire" class="tag tag_type tag_type_button tag_type_Fire">Fire</span></a>
+                    <a href="javascript:typeFilterClicked('Flying')"><span id="pp_filter_type_Flying" class="tag tag_type tag_type_button tag_type_Flying">Flying</span></a>
+                    <a href="javascript:typeFilterClicked('Ghost')"><span id="pp_filter_type_Ghost" class="tag tag_type tag_type_button tag_type_Ghost">Ghost</span></a>
+                    <a href="javascript:disableAllTypes()" class="button is-info is-outlined select-button">Deselect types</a>
                 </nav>
                 <nav class="level types_row_bottom">
-                    <a href="javascript:typeFilterClicked('Grass')"><span id="pp_filter_type_Grass" class="tag tag_selected tag_type tag_type_button tag_type_Grass">Grass</span></a>
-                    <a href="javascript:typeFilterClicked('Ground')"><span id="pp_filter_type_Ground" class="tag tag_selected tag_type tag_type_button tag_type_Ground">Ground</span></a>
-                    <a href="javascript:typeFilterClicked('Ice')"><span id="pp_filter_type_Ice" class="tag tag_selected tag_type tag_type_button tag_type_Ice">Ice</span></a>
-                    <a href="javascript:typeFilterClicked('Normal')"><span id="pp_filter_type_Normal" class="tag tag_selected tag_type tag_type_button tag_type_Normal">Normal</span></a>
-                    <a href="javascript:typeFilterClicked('Poison')"><span id="pp_filter_type_Poison" class="tag tag_selected tag_type tag_type_button tag_type_Poison">Poison</span></a>
-                    <a href="javascript:typeFilterClicked('Psychic')"><span id="pp_filter_type_Psychic" class="tag tag_selected tag_type tag_type_button tag_type_Psychic">Psychic</span></a>
-                    <a href="javascript:typeFilterClicked('Rock')"><span id="pp_filter_type_Rock" class="tag tag_selected tag_type tag_type_button tag_type_Rock">Rock</span></a>
-                    <a href="javascript:typeFilterClicked('Steel')"><span id="pp_filter_type_Steel" class="tag tag_selected tag_type tag_type_button tag_type_Steel">Steel</span></a>
-                    <a href="javascript:typeFilterClicked('Water')"><span id="pp_filter_type_Water" class="tag tag_selected tag_type tag_type_button tag_type_Water">Water</span></a>
-                    <a href="javascript:disableAllTypes()" class="button is-info is-outlined select-button">Deselect all</a>
+                    <a href="javascript:typeFilterClicked('Grass')"><span id="pp_filter_type_Grass" class="tag tag_type tag_type_button tag_type_Grass">Grass</span></a>
+                    <a href="javascript:typeFilterClicked('Ground')"><span id="pp_filter_type_Ground" class="tag tag_type tag_type_button tag_type_Ground">Ground</span></a>
+                    <a href="javascript:typeFilterClicked('Ice')"><span id="pp_filter_type_Ice" class="tag tag_type tag_type_button tag_type_Ice">Ice</span></a>
+                    <a href="javascript:typeFilterClicked('Normal')"><span id="pp_filter_type_Normal" class="tag tag_type tag_type_button tag_type_Normal">Normal</span></a>
+                    <a href="javascript:typeFilterClicked('Poison')"><span id="pp_filter_type_Poison" class="tag tag_type tag_type_button tag_type_Poison">Poison</span></a>
+                    <a href="javascript:typeFilterClicked('Psychic')"><span id="pp_filter_type_Psychic" class="tag tag_type tag_type_button tag_type_Psychic">Psychic</span></a>
+                    <a href="javascript:typeFilterClicked('Rock')"><span id="pp_filter_type_Rock" class="tag tag_type tag_type_button tag_type_Rock">Rock</span></a>
+                    <a href="javascript:typeFilterClicked('Steel')"><span id="pp_filter_type_Steel" class="tag tag_type tag_type_button tag_type_Steel">Steel</span></a>
+                    <a href="javascript:typeFilterClicked('Water')"><span id="pp_filter_type_Water" class="tag tag_type tag_type_button tag_type_Water">Water</span></a>
+                    <a href="javascript:resetFilters()" class="button is-danger select-button">Reset all filters</a>
                 </nav>
                 <h2 class="subtitle"><strong>Pok&eacute;mon List</strong></h2>
                 <div id="pp_results">

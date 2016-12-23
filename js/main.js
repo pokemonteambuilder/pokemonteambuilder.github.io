@@ -6,7 +6,8 @@ var POKEDEX_FILTERED = {};
 var ATTACK_INVINDEX = {};
 
 var FILTER_NAME = "";
-var FILTER_TYPES = {"Bug": true, "Dark": true, "Dragon": true, "Electric": true, "Fairy": true, "Fighting": true, "Fire": true, "Flying": true, "Ghost": true, "Grass": true, "Ground": true, "Ice": true, "Normal": true, "Poison": true, "Psychic": true, "Rock": true, "Steel": true, "Water": true};
+var FILTER_TYPES = {"Bug": false, "Dark": false, "Dragon": false, "Electric": false, "Fairy": false, "Fighting": false, "Fire": false, "Flying": false, "Ghost": false, "Grass": false, "Ground": false, "Ice": false, "Normal": false, "Poison": false, "Psychic": false, "Rock": false, "Steel": false, "Water": false};
+var numTypesFiltered = 0;
 
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
@@ -476,6 +477,9 @@ function filterByName(useCurrent) {
 
 
 function filterByType(useCurrent) {
+    if (numTypesFiltered == 0) {
+        return;
+    }
     if (useCurrent == true) {
         var dex = POKEDEX_FILTERED;
     }
@@ -504,10 +508,10 @@ function filterByAll() {
     }
     filterByType(true);
     // Filter by evos
-    if ($("#pp_filter_preevos")[0].checked == false) {
+    if ($("#pp_filter_preevos")[0].checked == true) {
         filterPreEvos();
     }
-    if ($("#pp_filter_nonmegas")[0].checked == false) {
+    if ($("#pp_filter_nonmegas")[0].checked == true) {
         filterNonMegas();
     }
 }
@@ -517,11 +521,12 @@ function resetFilters() {
     FILTER_NAME = "";
     $("#pp_filter_name").val("");
     $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
-    $("#pp_filter_preevos")[0].checked = true;
-    $("#pp_filter_nonmegas")[0].checked = true;
+    $("#pp_filter_preevos")[0].checked = false;
+    $("#pp_filter_nonmegas")[0].checked = false;
     for (var key in FILTER_TYPES) {
-        FILTER_TYPES[key] = true;
-        $("#pp_filter_type_" + key).addClass("tag_selected");
+        FILTER_TYPES[key] = false;
+        numTypesFiltered = 0;
+        $("#pp_filter_type_" + key).removeClass("tag_selected");
     }
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
     displayResults();
@@ -572,7 +577,7 @@ function filterNonMegas() {
 
 function preEvosFilterClicked() {
     var status = $("#pp_filter_preevos")[0].checked;
-    if (status == true) {
+    if (status == false) {
         filterByAll();
     }
     else {
@@ -583,8 +588,8 @@ function preEvosFilterClicked() {
 
 
 function nonMegasFilterClicked() {
-    var status = $("#pp_filter_preevos")[0].checked;
-    if (status == true) {
+    var status = $("#pp_filter_nonmegas")[0].checked;
+    if (status == false) {
         filterByAll();
     }
     else {
@@ -595,31 +600,21 @@ function nonMegasFilterClicked() {
 
 
 function typeFilterClicked(type) {
-    if (FILTER_TYPES[type] == true) {
+    if (FILTER_TYPES[type] == false) {
         // alert(1);
-        // Remove those types
-        FILTER_TYPES[type] = false;
-        $("#pp_filter_type_" + type).removeClass("tag_selected");
-        filterByType(true);
-        displayResults();
-    }
-    else {
-        // Add those types back in
+        numTypesFiltered += 1;
         FILTER_TYPES[type] = true;
         $("#pp_filter_type_" + type).addClass("tag_selected");
         filterByAll();
         displayResults();
     }
-}
-
-
-function enableAllTypes() {
-    for (var key in FILTER_TYPES) {
-        FILTER_TYPES[key] = true;
-        $("#pp_filter_type_" + key).addClass("tag_selected");
+    else {
+        FILTER_TYPES[type] = false;
+        numTypesFiltered -= 1;
+        $("#pp_filter_type_" + type).removeClass("tag_selected");
+        filterByAll();
+        displayResults();
     }
-    filterByAll();
-    displayResults();
 }
 
 
@@ -628,7 +623,8 @@ function disableAllTypes() {
         FILTER_TYPES[key] = false;
         $("#pp_filter_type_" + key).removeClass("tag_selected");
     }
-    filterByType(true);
+    numTypesFiltered = 0;
+    filterByAll(true);
     displayResults();
 }
 
