@@ -2,6 +2,14 @@
     width: 112px;
 }
 
+.notification-top {
+    position: fixed;
+    top: 20px;
+    left: calc(50% - 180px);
+    width: 360px;
+    text-align: center;
+}
+
 .hidden {
     display: none;
 }

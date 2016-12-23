@@ -13,12 +13,21 @@ var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
 
-function addSelected(pkey) {
-    // Exit when the Pokemon cannot be added
-    if (numSelected === 6) {return;} // TODO: return warning message
+function addSelected(pkey, notify) {
+    console.log(numSelected);
     for (var i = 0; i < 6; i++) {
-        if (currentSelected[i] === pkey) {return;} // TOOD: return warning message
+        if (currentSelected[i] === pkey) {
+            showNotification("You already have this Pokémon.", "is-warning", 800);
+            return;
+        } // TOOD: return warning message
     }
+    // Exit when the Pokemon cannot be added
+    if (numSelected >= 6) {
+        if (notify == true) {
+            showNotification("You already have 6 Pokémon.", "is-warning", 800);
+            return;
+        }
+    } // TODO: return warning message
     // Add the Pokemon to the data structures
     numSelected += 1;
     var index = numSelected - 1;
@@ -38,6 +47,10 @@ function addSelected(pkey) {
     $("#sp_box_" + index).find(".sp_delete").html("<a title=\"Remove\" href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
     // Add the attacks
     addAttacks(pkey, index);
+
+    if (notify == true) {
+        showNotification("Added " + POKEDEX[pkey].species + " to your team!", "is-success", 800);
+    }
 
     calculateWeaknesses();
     calculateResistances();
@@ -184,15 +197,6 @@ function attackChanged(selector, whichatk) {
 }
 
 
-function loadData() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "http://pokemonteambuilder.com/data/pokedex.json", false );
-    xmlHttp.send( null );
-    POKEDEX = JSON.parse(xmlHttp.responseText);
-    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
-    displayResults();
-}
-
 function getIconString(pobject, key) {
     var suffix = "" + pobject.num;
     if (pobject.species.indexOf("-Mega-X") != -1) {
@@ -323,7 +327,7 @@ function displayResults() {
     $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless is-mobile\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
-            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "')\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
+            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "', true)\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
         }
         wrapCount += 1;
         if (wrapCount === 12) {
@@ -640,7 +644,7 @@ function loadFromHash(hash) {
         if (part.indexOf("p_") != -1) {
             pcount += 1;
             acount = 1;
-            addSelected(part.substring(2, part.length));
+            addSelected(part.substring(2, part.length), false);
         }
         else if (part.indexOf("a_") != -1) {
             var attack = MOVEDEX[part.substring(2, part.length)].name;
@@ -660,20 +664,56 @@ function loadFromHash(hash) {
 }
 
 
+function loadData() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "http://pokemonteambuilder.com/data/pokedex.json", false );
+    xmlHttp.send( null );
+    POKEDEX = JSON.parse(xmlHttp.responseText);
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    displayResults();
+}
+
+
+var startTimeout;
 function initialize() {
+    $.getJSON("http://pokemonteambuilder.com/data/pokedex.json", function(data){loadedData(data);});
+    startTimeout = setTimeout(function() {$("#page_notification").text("Loading, please wait...");$("#page_notification").addClass("is-danger");$("#page_notification").show(100);}, 150)
     resetSelected(0);
     resetSelected(1);
     resetSelected(2);
     resetSelected(3);
     resetSelected(4);
     resetSelected(5);
-    loadData();
+}
+
+
+function loadedData(data) {
+    POKEDEX = data;
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    displayResults();
     if (document.location.hash != "") {
         loadFromHash(document.location.hash);
     }
     else {
         generateShareLink();
     }
+    clearTimeout(startTimeout);
+    $("#page_notification").hide(100);
+    setTimeout(function() {$("#page_notification").removeClass("is-danger");}, 100);
+}
+
+
+var currentTimeout;
+var currentColor;
+function showNotification(message, classcolor, duration) {
+    clearTimeout(currentTimeout);
+    $("#page_notification").hide(0);
+    $("#page_notification").removeClass(currentColor);
+    $("#page_notification").text(message);
+    $("#page_notification").addClass(classcolor);
+    currentColor = classcolor;
+    $("#page_notification").show(duration / 4);
+    currentTimeout = setTimeout(function() {$("#page_notification").hide(duration / 4);setTimeout(function() {$("#page_notification").removeClass(classcolor);}, duration / 4);}, duration);
 }
 
 
