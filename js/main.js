@@ -138,6 +138,12 @@ function addAttacks(pkey, pindex) {
     else if (pkey.indexOf("-") != -1) {
         pkey = pkey.substring(0, pkey.indexOf("-"));
     }
+    else if (pkey.indexOf(" ") != -1) {
+        pkey = pkey.substring(0, pkey.indexOf(" ")) + pkey.substring(pkey.indexOf(" ") + 1, pkey.length);
+        if (pkey == "mimejr.") {
+            pkey = "mimejr";
+        }
+    }
     if (pkey == "jangmo" || pkey == "hakamo" || pkey == "kommo") {
         pkey += "o";
     }
@@ -145,6 +151,9 @@ function addAttacks(pkey, pindex) {
         pkey = "hooh";
     }
     else if (pkey == "type: null") {
+        pkey = "typenull";
+    }
+    else if (pkey == "type: nul") {
         pkey = "typenull";
     }
     var attackDict = JSON.parse(JSON.stringify(LEARNSETS[pkey].learnset));
@@ -306,7 +315,7 @@ function getIconString(pobject, key) {
         suffix += "-pom-pom";
     }
     else if (pobject.species.indexOf("-Sensu") != -1) {
-        suffix += "-sense";
+        suffix += "-sensu";
     }
     else if (pobject.species.indexOf("-Midnight") != -1) {
         suffix += "-midnight";
