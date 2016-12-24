@@ -430,6 +430,10 @@ function calculateCoverage() {
                 var attack = MOVEDEX[ATTACK_INVINDEX[attackname]].type;
                 if (TYPE_CHART[defense].damageTaken[attack] == 1) {
                     count += 1;
+                    continue;
+                }
+                if (attackname == "Freeze-Dry" && defense == "Water") {
+                    count += 1;
                 }
             }
         }
