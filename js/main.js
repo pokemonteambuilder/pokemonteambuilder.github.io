@@ -208,6 +208,11 @@ function attackChanged(selector, whichatk) {
             $(label).removeClass(classes[i]);
         }
     }
+    // Change type for some Pokemon
+    if (attackkey == "multiattack") {
+        type = $(selector).parent().parent().parent().parent().find(".sp_type1").text();
+        console.log(type);
+    }
     $(label).addClass("tag_type_" + type);
     $(label).text(type);
     $(label).removeClass("invisible");
@@ -427,7 +432,8 @@ function calculateCoverage() {
                 if (MOVEDEX[ATTACK_INVINDEX[attackname]].category == "Status") {
                     continue;
                 }
-                var attack = MOVEDEX[ATTACK_INVINDEX[attackname]].type;
+                // var attack = MOVEDEX[ATTACK_INVINDEX[attackname]].type;
+                var attack = $("#sp_box_" + i).find(".sp_attack" + j + "_type").text();
                 if (TYPE_CHART[defense].damageTaken[attack] == 1) {
                     count += 1;
                     continue;
