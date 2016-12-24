@@ -14,7 +14,6 @@ var currentSelected = ["", "", "", "", "", ""];
 
 
 function addSelected(pkey, notify, reloadLink) {
-    console.log(numSelected);
     for (var i = 0; i < 6; i++) {
         if (currentSelected[i] === pkey) {
             showNotification("You already have this Pokémon.", "is-warning", 800);
@@ -33,7 +32,6 @@ function addSelected(pkey, notify, reloadLink) {
     var index = numSelected - 1;
     currentSelected[index] = pkey;
     // Add the Pokemon name
-    console.log(pkey);
     $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
     $("#sp_box_" + index).find(".sp_name").html("<a title=\"Poked&eacute;x entry\" class=\"serebii_link\" target=\"_blank\" href=\"" + getSerebiiLink(pkey) + "\">" + POKEDEX[pkey].species + "</a>");
     // Add the Pokemon types
@@ -127,8 +125,8 @@ function getSerebiiLink(pkey) {
 }
 
 
-function addAttacks(pkey, pindex) {
-    pkey = POKEDEX[pkey].species.toLowerCase();
+function addAttacks(pkeyOrig, pindex) {
+    var pkey = POKEDEX[pkeyOrig].species.toLowerCase();
     if (pkey.indexOf("-alola") != -1) {
         pkey = pkey.substring(0, pkey.indexOf("-")) + "alola";
     }
@@ -175,6 +173,11 @@ function addAttacks(pkey, pindex) {
                     attackDict[attackkey] = LEARNSETS[prevo2].learnset;
                 }
             }
+        }
+    }
+    if (pkey == "rotom" && pkeyOrig != "rotom") {
+        for (var attackkey in LEARNSETS[pkeyOrig].learnset) {
+            attackDict[attackkey] = LEARNSETS[pkeyOrig].learnset;
         }
     }
     var keys = Object.keys(attackDict);
@@ -658,12 +661,10 @@ function disableAllTypes() {
 function loadFromHash(hash) {
     hash = hash.substring(1, hash.length);
     var parts = hash.split("+");
-    console.log(parts);
     var pcount = -1;
     var acount = 0;
     for (var hashi = 0; hashi < parts.length; hashi++) {
         var part = parts[hashi];
-        console.log(hashi + ": " + part);
         if (part.indexOf("p_") != -1) {
             pcount += 1;
             acount = 1;
