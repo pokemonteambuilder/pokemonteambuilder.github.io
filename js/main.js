@@ -454,15 +454,20 @@ function calculateResistances() {
         for (var i = 0; i < numSelected; i++) {
             var defense = POKEDEX[currentSelected[i]].types[0];
             var alreadyResist = false;
+            var alreadyImmune = false;
             var weakFirst = false;
-            if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
+            if (TYPE_CHART[defense].damageTaken[attack] == 2) {
                 count += 1;
                 alreadyResist = true;
+            }
+            else if (TYPE_CHART[defense].damageTaken[attack] == 3) {
+                count += 1;
+                alreadyImmune = true;
             }
             else if (TYPE_CHART[defense].damageTaken[attack] == 1) {
                 weakFirst = true;
             }
-            if (POKEDEX[currentSelected[i]].types.length > 1) {
+            if (POKEDEX[currentSelected[i]].types.length > 1 && alreadyImmune == false) {
                 defense = POKEDEX[currentSelected[i]].types[1];
                 if (TYPE_CHART[defense].damageTaken[attack] == 1) { // Super effective
                     if (alreadyResist == true) {
