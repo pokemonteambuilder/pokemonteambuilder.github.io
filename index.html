@@ -280,7 +280,7 @@
 
             <div class="column is-7">
                 <h2 class="subtitle"><strong>Filters</strong></h2>
-                <nav class="level">
+                <nav class="level types_row_top">
                     <div class="level-left">
                         <div class="level-item">
                             <input id="pp_filter_name" class="input" type="text" onkeyup="nameFilterEntered()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Enter text to filter by name" style="min-width:240px;">
@@ -297,6 +297,43 @@
                                 <input id="pp_filter_nonmegas" type="checkbox" onchange="nonMegasFilterClicked()"> Mega evolutions only
                             </label>
                         </div>
+                    </div>
+                </nav>
+                <nav class="level types_row_top">
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_1" type="checkbox" onchange="generationFilterClicked(1)" checked> Gen. 1
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_2" type="checkbox" onchange="generationFilterClicked(2)" checked> Gen. 2
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_3" type="checkbox" onchange="generationFilterClicked(3)" checked> Gen. 3
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_4" type="checkbox" onchange="generationFilterClicked(4)" checked> Gen. 4
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_5" type="checkbox" onchange="generationFilterClicked(5)" checked> Gen. 5
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_6" type="checkbox" onchange="generationFilterClicked(6)" checked> Gen. 6
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_7" type="checkbox" onchange="generationFilterClicked(7)" checked> Gen. 7
+                        </label>
                     </div>
                 </nav>
                 <nav class="level types_row_top">

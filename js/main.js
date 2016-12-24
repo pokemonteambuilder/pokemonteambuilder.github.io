@@ -12,6 +12,8 @@ var numTypesFiltered = 0;
 var ALL_TYPES = ["Bug", "Dark", "Dragon",  "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"];
 var TECHNOBLAST_TYPES = ["Normal", "Electric", "Fire", "Water"];
 
+var GEN_CUTOFFS = [0, 151, 251, 386, 493, 649, 721, 802];
+
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
@@ -556,6 +558,9 @@ function calculateResistances() {
 }
 
 
+
+
+
 function filterByName(useCurrent) {
     if (useCurrent == true) {
         var dex = POKEDEX_FILTERED;
@@ -597,6 +602,20 @@ function filterByType(useCurrent) {
 }
 
 
+function filterByGeneration(gennum) {
+    // Filters out gennum
+    var dex = POKEDEX_FILTERED;
+    var copyPokedex = {};
+    for (var key in dex) {
+        var pnum = dex[key].num;
+        if (!(pnum > GEN_CUTOFFS[gennum - 1] && pnum <= GEN_CUTOFFS[gennum])) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
 function filterByAll() {
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
     // Filter by name
@@ -611,6 +630,11 @@ function filterByAll() {
     if ($("#pp_filter_nonmegas")[0].checked == true) {
         filterNonMegas();
     }
+    for (var i = 1; i <= 7; i++) {
+        if ($("#pp_filter_gen_" + i)[0].checked == false) {
+            filterByGeneration(i);
+        }
+    }
 }
 
 
@@ -624,6 +648,9 @@ function resetFilters() {
         FILTER_TYPES[key] = false;
         numTypesFiltered = 0;
         $("#pp_filter_type_" + key).removeClass("tag_selected");
+    }
+    for (var i = 1; i <= 7; i++) {
+        $("#pp_filter_gen_" + i)[0].checked = true;
     }
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
     displayResults();
@@ -673,8 +700,7 @@ function filterNonMegas() {
 
 
 function preEvosFilterClicked() {
-    var status = $("#pp_filter_preevos")[0].checked;
-    if (status == false) {
+    if ($("#pp_filter_preevos")[0].checked == false) {
         filterByAll();
     }
     else {
@@ -685,12 +711,22 @@ function preEvosFilterClicked() {
 
 
 function nonMegasFilterClicked() {
-    var status = $("#pp_filter_nonmegas")[0].checked;
-    if (status == false) {
+    if ($("#pp_filter_nonmegas")[0].checked == false) {
         filterByAll();
     }
     else {
         filterNonMegas();
+    }
+    displayResults();
+}
+
+
+function generationFilterClicked(gennum) {
+    if ($("#pp_filter_gen_" + gennum)[0].checked == true) {
+        filterByAll();
+    }
+    else {
+        filterByGeneration(gennum);
     }
     displayResults();
 }
