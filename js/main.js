@@ -211,7 +211,9 @@ function attackChanged(selector, whichatk) {
     // Change type for some Pokemon
     if (attackkey == "multiattack") {
         type = $(selector).parent().parent().parent().parent().find(".sp_type1").text();
-        console.log(type);
+    }
+    else if (attackkey == "revelationdance") {
+        type = $(selector).parent().parent().parent().parent().find(".sp_type1").text();
     }
     $(label).addClass("tag_type_" + type);
     $(label).text(type);

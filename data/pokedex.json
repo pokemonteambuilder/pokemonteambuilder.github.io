@@ -11471,7 +11471,7 @@
 	},
 	"oricorio": {
 		"num": 741,
-		"species": "Oricorio",
+		"species": "Oricorio-Baile",
 		"baseForme": "Baile",
 		"types": ["Fire", "Flying"],
 		"genderRatio": {"M": 0.25, "F": 0.75},
