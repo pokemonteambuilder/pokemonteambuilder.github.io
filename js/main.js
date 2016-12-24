@@ -384,12 +384,12 @@ function calculateWeaknesses() {
                 count += 1;
                 alreadyWeak = true;
             }
-            else if (TYPE_CHART[defense].damageTaken[attack] == 2) {
+            else if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
                 resistFirst = true;
             }
             if (POKEDEX[currentSelected[i]].types.length > 1) {
                 defense = POKEDEX[currentSelected[i]].types[1];
-                if (TYPE_CHART[defense].damageTaken[attack] == 2) {
+                if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
                     if (alreadyWeak == true) {
                         count -= 1;
                     }
@@ -457,13 +457,18 @@ function calculateResistances() {
             }
             if (POKEDEX[currentSelected[i]].types.length > 1) {
                 defense = POKEDEX[currentSelected[i]].types[1];
-                if (TYPE_CHART[defense].damageTaken[attack] == 1) {
+                if (TYPE_CHART[defense].damageTaken[attack] == 1) { // Super effective
                     if (alreadyResist == true) {
                         count -= 1;
                     }
                 }
-                else if (TYPE_CHART[defense].damageTaken[attack] >= 2) {
+                else if (TYPE_CHART[defense].damageTaken[attack] == 2) { // Not very effective
                     if (alreadyResist == false && weakFirst == false) {
+                        count += 1;
+                    }
+                }
+                else if (TYPE_CHART[defense].damageTaken[attack] == 3) { // Immune
+                    if (alreadyResist == false) {
                         count += 1;
                     }
                 }
