@@ -9,6 +9,9 @@ var FILTER_NAME = "";
 var FILTER_TYPES = {"Bug": false, "Dark": false, "Dragon": false, "Electric": false, "Fairy": false, "Fighting": false, "Fire": false, "Flying": false, "Ghost": false, "Grass": false, "Ground": false, "Ice": false, "Normal": false, "Poison": false, "Psychic": false, "Rock": false, "Steel": false, "Water": false};
 var numTypesFiltered = 0;
 
+var ALL_TYPES = ["Bug", "Dark", "Dragon",  "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"];
+var TECHNOBLAST_TYPES = ["Normal", "Electric", "Fire", "Water"];
+
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
 
@@ -101,7 +104,12 @@ function generateShareLink() {
             var attack = $("#sp_box_" + i).find(".sp_attack" + j).val();
             if (attack != "-") {
                 var akey = ATTACK_INVINDEX[attack];
-                middle += "a_" + akey + "+";
+                if (akey == "hiddenpower" || akey == "technoblast") {
+                    middle += "a_" + akey + "_" + $("#sp_box_" + i).find(".sp_attack" + j + "_type").text() + "+";
+                }
+                else {
+                    middle += "a_" + akey + "+";
+                }
             }
         }
     }
@@ -194,8 +202,13 @@ function addAttacks(pkeyOrig, pindex) {
 }
 
 
-function attackChanged(selector, whichatk) {
+function attackChanged(selector, whichatk, wasClicked) {
+    console.log(selector);
+    console.log(selector.value);
+    console.log("." + whichatk + "_type");
     var label = $(selector).parent().parent().parent().find("." + whichatk + "_type");
+    console.log($(selector).parent().parent().parent().find("" + whichatk + "_type"));
+    console.log($(selector).parent().parent().parent());
     if (selector.value == "-") {
         label.addClass("invisible");
         return;
@@ -218,6 +231,44 @@ function attackChanged(selector, whichatk) {
     $(label).addClass("tag_type_" + type);
     $(label).text(type);
     $(label).removeClass("invisible");
+    console.log("Entered");
+    if (attackkey == "hiddenpower") {
+        if (wasClicked == true) {
+            showNotification("Tip: click on Hidden Power's type icon to change its type.", "is-primary", 1600);
+        }
+        $(label).click(function(){attackTypeClicked($(label), ALL_TYPES)});
+    }
+    else if (attackkey == "technoblast") {
+        if (wasClicked == true) {
+            showNotification("Tip: click on Techno Blast's type icon to change its type.", "is-primary", 1600);
+        }
+        $(label).click(function(){attackTypeClicked($(label), TECHNOBLAST_TYPES)});
+    }
+    else {
+        $(label).unbind();
+    }
+    if (wasClicked == true) {
+        calculateCoverage();
+        generateShareLink();
+    }
+}
+
+
+function attackTypeClicked(label, typeList) {
+    console.log("Clicked " + $(label).attr("class"));
+    console.log(typeList);
+    var currentType = $(label).text();
+    var typeIndex = 0;
+    for (var i = 0; i < typeList.length; i++) {
+        if (typeList[i] == currentType) {
+            typeIndex = i;
+            break;
+        }
+    }
+    var newType = typeList[(typeIndex + 1) % typeList.length];
+    $(label).text(newType);
+    $(label).removeClass("tag_type_" + currentType);
+    $(label).addClass("tag_type_" + newType);
     calculateCoverage();
     generateShareLink();
 }
@@ -688,13 +739,26 @@ function loadFromHash(hash) {
             addSelected(part.substring(2, part.length), false, false);
         }
         else if (part.indexOf("a_") != -1) {
-            var attack = MOVEDEX[part.substring(2, part.length)].name;
-            var type = MOVEDEX[part.substring(2, part.length)].type;
+            var attackkey = part.substring(2, part.length);
+            var type = "";
+            if (attackkey.indexOf("_") != -1) {
+                type = attackkey.substring(attackkey.indexOf("_") + 1, attackkey.length);
+                attackkey = attackkey.substring(0, attackkey.indexOf("_"));
+            }
+            var attack = MOVEDEX[attackkey].name;
             $("#sp_box_" + pcount).find(".sp_attack" + acount).val(attack);
-            var label = $("#sp_box_" + pcount).find(".sp_attack" + acount).parent().parent().parent().find(".sp_attack" + acount + "_type");
-            $(label).addClass("tag_type_" + type);
-            $(label).text(type);
-            $(label).removeClass("invisible");
+            attackChanged(document.getElementById("sp_box_" + pcount).getElementsByClassName("sp_attack" + acount)[0], "sp_attack" + acount, false);
+            if (attackkey == "hiddenpower" || attackkey == "technoblast") {
+                var label = $("#sp_box_" + pcount).find(".sp_attack" + acount + "_type");
+                var classes = $(label).attr("class").split(' ');
+                for (var i = 0; i < classes.length; i++) {
+                    if (classes[i].indexOf("tag_type_") != -1) {
+                        $(label).removeClass(classes[i]);
+                    }
+                }
+                $(label).addClass("tag_type_" + type);
+                $(label).text(type);
+            }
             acount += 1;
         }
         if (pcount >= 7 || acount >= 6) {
