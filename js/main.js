@@ -582,6 +582,10 @@ function filterByType(useCurrent) {
     if (numTypesFiltered == 0) {
         return;
     }
+    if ($("#pp_filter_toggle")[0].checked == false && numTypesFiltered > 2) {
+        POKEDEX_FILTERED = {};
+        return;
+    }
     if (useCurrent == true) {
         var dex = POKEDEX_FILTERED;
     }
@@ -589,13 +593,23 @@ function filterByType(useCurrent) {
         var dex = POKEDEX;
     }
     var copyPokedex = {};
-    for (var key in dex) {
-        var types = dex[key].types;
-        if (FILTER_TYPES[types[0]] == true) {
-            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+    if ($("#pp_filter_toggle")[0].checked == true || numTypesFiltered == 1) { // OR selected
+        for (var key in dex) {
+            var types = dex[key].types;
+            if (FILTER_TYPES[types[0]] == true) {
+                copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+            }
+            else if (types.length > 1 && FILTER_TYPES[types[1]] == true) {
+                copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+            }
         }
-        else if (types.length > 1 && FILTER_TYPES[types[1]] == true) {
-            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+    }
+    else {
+        for (var key in dex) {
+            var types = dex[key].types;
+            if (types.length == 2 && FILTER_TYPES[types[0]] == true && FILTER_TYPES[types[1]] == true) {
+                copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+            }
         }
     }
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
@@ -644,6 +658,7 @@ function resetFilters() {
     $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
     $("#pp_filter_preevos")[0].checked = false;
     $("#pp_filter_nonmegas")[0].checked = false;
+    $("#pp_filter_toggle")[0].checked = true;
     for (var key in FILTER_TYPES) {
         FILTER_TYPES[key] = false;
         numTypesFiltered = 0;
@@ -748,6 +763,12 @@ function typeFilterClicked(type) {
         filterByAll();
         displayResults();
     }
+}
+
+
+function typeSwitchToggled() {
+    filterByAll();
+    displayResults();
 }
 
 

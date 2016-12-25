@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="css/bulma.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/positions.css">
+    <!-- <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> -->
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="js/typechart.js"></script>
     <script type="text/javascript" src="js/moves.js"></script>
@@ -335,6 +336,7 @@
                             <input id="pp_filter_gen_7" type="checkbox" onchange="generationFilterClicked(7)" checked> Gen. 7
                         </label>
                     </div>
+                    <a href="javascript:resetFilters()" class="button is-danger select-button">Reset all filters</a>
                 </nav>
                 <nav class="level types_row_top">
                     <a href="javascript:typeFilterClicked('Bug')"><span id="pp_filter_type_Bug" class="tag tag_type tag_type_button tag_type_Bug">Bug</span></a>
@@ -348,7 +350,7 @@
                     <a href="javascript:typeFilterClicked('Ghost')"><span id="pp_filter_type_Ghost" class="tag tag_type tag_type_button tag_type_Ghost">Ghost</span></a>
                     <a href="javascript:disableAllTypes()" class="button is-info is-outlined select-button">Deselect types</a>
                 </nav>
-                <nav class="level types_row_bottom">
+                <nav class="level">
                     <a href="javascript:typeFilterClicked('Grass')"><span id="pp_filter_type_Grass" class="tag tag_type tag_type_button tag_type_Grass">Grass</span></a>
                     <a href="javascript:typeFilterClicked('Ground')"><span id="pp_filter_type_Ground" class="tag tag_type tag_type_button tag_type_Ground">Ground</span></a>
                     <a href="javascript:typeFilterClicked('Ice')"><span id="pp_filter_type_Ice" class="tag tag_type tag_type_button tag_type_Ice">Ice</span></a>
@@ -358,8 +360,15 @@
                     <a href="javascript:typeFilterClicked('Rock')"><span id="pp_filter_type_Rock" class="tag tag_type tag_type_button tag_type_Rock">Rock</span></a>
                     <a href="javascript:typeFilterClicked('Steel')"><span id="pp_filter_type_Steel" class="tag tag_type tag_type_button tag_type_Steel">Steel</span></a>
                     <a href="javascript:typeFilterClicked('Water')"><span id="pp_filter_type_Water" class="tag tag_type tag_type_button tag_type_Water">Water</span></a>
-                    <a href="javascript:resetFilters()" class="button is-danger select-button">Reset all filters</a>
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="pp_filter_toggle" onchange="typeSwitchToggled()" checked>
+                        <label class="onoffswitch-label" for="pp_filter_toggle">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
                 </nav>
+                
                 <h2 class="subtitle"><strong>Pok&eacute;mon List</strong></h2>
                 <div id="pp_results">
                 </div>
