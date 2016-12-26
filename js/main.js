@@ -871,6 +871,7 @@ function importShowdownTeam() {
         }
     }
     finally {
+        showNotification("Successfully imported your team.", "is-success", 1600);
         calculateWeaknesses();
         calculateResistances();
         calculateCoverage();
