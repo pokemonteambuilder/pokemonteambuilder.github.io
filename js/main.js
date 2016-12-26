@@ -863,6 +863,7 @@ function importShowdownTeam() {
     }
     try {
         readPokemonStrings($("#sp_import_text").val().split("\n"));
+        showNotification("Successfully imported your team.", "is-success", 1600);
     }
     catch(err) {
         showNotification("There was an error importing your team.", "is-danger", 1600);
@@ -871,7 +872,6 @@ function importShowdownTeam() {
         }
     }
     finally {
-        showNotification("Successfully imported your team.", "is-success", 1600);
         calculateWeaknesses();
         calculateResistances();
         calculateCoverage();
@@ -888,14 +888,26 @@ function readPokemonStrings(stringList) {
         if (line.indexOf("Ability:") != -1 || line.indexOf("EVs:") != -1 || line.indexOf("IVs:") != -1 || line.indexOf(" Nature") != -1 || line == "") {
             continue;
         }
-        else if (line.indexOf("- ") != -1) {
-            var aname = line.substring(2, line.length);
+        else if (line.substring(0, 1) == "-") {
+            var aname = "";
+            if (line.indexOf("- ") != -1) {
+                aname = line.substring(2, line.length);
+            }
+            else {
+                aname = line.substring(1, line.length);
+            }
             var isHP = false;
             var hptype = "";
             if (aname.indexOf("Hidden Power") != -1) {
                 isHP = true;
-                hptype = aname.substring(aname.indexOf("[") + 1, aname.indexOf("]"));
-                aname =  aname.substring(0, aname.indexOf("[") - 1);
+                if (aname.indexOf("[") != -1) {
+                    hptype = aname.substring(aname.indexOf("[") + 1, aname.indexOf("]"));
+                    aname = "Hidden Power";
+                }
+                else {
+                    hptype = aname.substring(13, aname.length);
+                    aname = "Hidden Power";
+                }
             }
             var akey = ATTACK_INVINDEX[aname];
             $("#sp_box_" + pindex).find(".sp_attack" + aindex).val(aname);
