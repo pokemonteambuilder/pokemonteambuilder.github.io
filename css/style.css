@@ -2,6 +2,10 @@
     width: 112px;
 }
 
+textarea {
+  resize: vertical; /* user can resize vertically, but width is fixed */
+}
+
 .notification-top {
     position: fixed;
     top: 20px;

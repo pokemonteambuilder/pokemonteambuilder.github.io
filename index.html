@@ -275,7 +275,13 @@
                 </div>
                 <h2 class="subtitle"><strong>Share Link</strong></h2>
                 <input id="sp_share_link" class="input" type="text" readonly="readonly" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" onclick="javascript:copyToClipboard(this);">
-                <p style="padding-top:8px;">Click to copy the link to your clipboard!</p>
+                <p style="padding-top:8px;">Click to copy the link to your clipboard!</p><br>
+                <h2 class="subtitle"><strong>Import from Pok&eacute;mon Showdown</strong></h2>
+                <p class="control has-addons" style="width: 100%">
+                    <textarea id="sp_import_text" class="input is-expanded" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Paste exported team text"></textarea>
+                    <a href="javascript:importShowdownTeam()" class="button is-success is-outlined select-button">Import</a>
+                </p>
+                <p style="padding-top:8px;">Make sure it's properly formatted, with "- " before each attack. Importing will erase your current team.</p>
             </div>
 
             <div class="column is-7">

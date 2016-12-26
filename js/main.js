@@ -48,7 +48,7 @@ function addSelected(pkey, notify, reloadLink) {
     // Add the Pokemon image
     $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
     // Add the delete button
-    $("#sp_box_" + index).find(".sp_delete").html("<a title=\"Remove\" href= \"javascript:removeSelected('" + pkey + "')\"><button class=\"delete\"></button></a>");
+    $("#sp_box_" + index).find(".sp_delete").html("<a title=\"Remove\" href= \"javascript:removeSelected('" + pkey + "', true)\"><button class=\"delete\"></button></a>");
     // Add the attacks
     addAttacks(pkey, index);
 
@@ -64,7 +64,7 @@ function addSelected(pkey, notify, reloadLink) {
 }
 
 
-function removeSelected(pkey) {
+function removeSelected(pkey, recalculate) {
     var index = -1;
     for (var i = 0; i < 6; i++) {
         if (currentSelected[i] === pkey) {
@@ -85,10 +85,12 @@ function removeSelected(pkey) {
     resetSelected(numSelected - 1);
     numSelected -= 1;
 
-    calculateWeaknesses();
-    calculateResistances();
-    calculateCoverage();
-    generateShareLink();
+    if (recalculate == true) {
+        calculateWeaknesses();
+        calculateResistances();
+        calculateCoverage();
+        generateShareLink();
+    }
 }
 
 
@@ -205,12 +207,7 @@ function addAttacks(pkeyOrig, pindex) {
 
 
 function attackChanged(selector, whichatk, wasClicked) {
-    console.log(selector);
-    console.log(selector.value);
-    console.log("." + whichatk + "_type");
     var label = $(selector).parent().parent().parent().find("." + whichatk + "_type");
-    console.log($(selector).parent().parent().parent().find("" + whichatk + "_type"));
-    console.log($(selector).parent().parent().parent());
     if (selector.value == "-") {
         label.addClass("invisible");
         return;
@@ -233,7 +230,6 @@ function attackChanged(selector, whichatk, wasClicked) {
     $(label).addClass("tag_type_" + type);
     $(label).text(type);
     $(label).removeClass("invisible");
-    console.log("Entered");
     if (attackkey == "hiddenpower") {
         if (wasClicked == true) {
             showNotification("Tip: click on Hidden Power's type icon to change its type.", "is-primary", 1600);
@@ -257,8 +253,6 @@ function attackChanged(selector, whichatk, wasClicked) {
 
 
 function attackTypeClicked(label, typeList) {
-    console.log("Clicked " + $(label).attr("class"));
-    console.log(typeList);
     var currentType = $(label).text();
     var typeIndex = 0;
     for (var i = 0; i < typeList.length; i++) {
@@ -860,6 +854,74 @@ function loadedData(data) {
     clearTimeout(startTimeout);
     $("#page_notification").hide(100);
     setTimeout(function() {$("#page_notification").removeClass("is-danger");}, 100);
+}
+
+
+function importShowdownTeam() {
+    for (var i = numSelected - 1; i >= 0; i--) {
+        removeSelected(currentSelected[i]);
+    }
+    try {
+        readPokemonStrings($("#sp_import_text").val().split("\n"));
+    }
+    catch(err) {
+        showNotification("There was an error importing your team.", "is-danger", 1600);
+        for (var i = numSelected - 1; i >= 0; i--) {
+            removeSelected(currentSelected[i]);
+        }
+    }
+    finally {
+        calculateWeaknesses();
+        calculateResistances();
+        calculateCoverage();
+        generateShareLink();
+        $("#sp_import_text").val("");
+    // }
+}
+
+function readPokemonStrings(stringList) {
+    var pindex = -1;
+    var aindex = 0;
+    for (var i = 0; i < stringList.length; i++) {
+        var line = $.trim(stringList[i]);
+        if (line.indexOf("Ability:") != -1 || line.indexOf("EVs:") != -1 || line.indexOf("IVs:") != -1 || line.indexOf(" Nature") != -1 || line == "") {
+            continue;
+        }
+        else if (line.indexOf("- ") != -1) {
+            var aname = line.substring(2, line.length);
+            var isHP = false;
+            var hptype = "";
+            if (aname.indexOf("Hidden Power") != -1) {
+                isHP = true;
+                hptype = aname.substring(aname.indexOf("[") + 1, aname.indexOf("]"));
+                aname =  aname.substring(0, aname.indexOf("[") - 1);
+            }
+            var akey = ATTACK_INVINDEX[aname];
+            $("#sp_box_" + pindex).find(".sp_attack" + aindex).val(aname);
+            attackChanged(document.getElementById("sp_box_" + pindex).getElementsByClassName("sp_attack" + aindex)[0], "sp_attack" + aindex, false);
+            if (isHP == true) {
+                var label = $("#sp_box_" + pindex).find(".sp_attack" + aindex + "_type");
+                $(label).removeClass("tag_type_Normal");
+                $(label).addClass("tag_type_" + hptype);
+                $(label).text(hptype);
+            }
+            aindex += 1;
+        }
+        else {
+            var pname = line;
+            if (line.indexOf("@") != -1) {
+                pname = line.substring(0, line.indexOf("@") - 1);
+            }
+            pindex += 1;
+            aindex = 1;
+            for (var pkey in POKEDEX) {
+                if (POKEDEX[pkey].species == pname) {
+                    addSelected(pkey, false, false);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
