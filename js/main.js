@@ -876,7 +876,7 @@ function importShowdownTeam() {
         calculateCoverage();
         generateShareLink();
         $("#sp_import_text").val("");
-    // }
+    }
 }
 
 function readPokemonStrings(stringList) {
