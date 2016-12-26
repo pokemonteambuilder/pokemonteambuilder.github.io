@@ -167,6 +167,9 @@ function addAttacks(pkeyOrig, pindex) {
         pkey = "typenull";
     }
     var attackDict = JSON.parse(JSON.stringify(LEARNSETS[pkey].learnset));
+    if (pkey == "smeargle") {
+        attackDict = JSON.parse(JSON.stringify(MOVEDEX));
+    }
     if ("prevo" in POKEDEX[pkey]) {
         var prevo1 = POKEDEX[pkey]["prevo"];
         for (var attackkey in LEARNSETS[prevo1].learnset) {
