@@ -888,7 +888,8 @@ function readPokemonStrings(stringList) {
     var aindex = 0;
     for (var i = 0; i < stringList.length; i++) {
         var line = $.trim(stringList[i]);
-        if (line.indexOf("Ability:") != -1 || line.indexOf("EVs:") != -1 || line.indexOf("IVs:") != -1 || line.indexOf(" Nature") != -1 || line == "") {
+        console.log(line);
+        if (line.indexOf("Ability:") != -1 || line.indexOf("EVs:") != -1 || line.indexOf("IVs:") != -1 || line.indexOf("Level:") != -1 || line.indexOf(" Nature") != -1 || line == "") {
             continue;
         }
         else if (line.substring(0, 1) == "-") {
