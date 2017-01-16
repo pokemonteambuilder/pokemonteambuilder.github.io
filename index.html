@@ -48,6 +48,14 @@
 </head>
 
 <body onload="initialize()">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <section class="hero is-info">
     <div class="hero-body">
@@ -277,31 +285,15 @@
                 <input id="sp_share_link" class="input" type="text" readonly="readonly" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" onclick="javascript:copyToClipboard(this);">
                 <p style="padding-top:8px;">Click to copy the link to your clipboard.</p><br>
                 <p>
-                    <!-- AddToAny BEGIN -->
-                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
-                    <a class="a2a_button_facebook"></a>
-                    <a class="a2a_button_twitter"></a>
-                    <a class="a2a_button_pinterest"></a>
-                    <a class="a2a_button_tumblr"></a>
-                    <a class="a2a_button_google_plus"></a>
-                    <a class="a2a_button_reddit"></a>
-                    <a class="a2a_button_email"></a>
-                    </div>
-                    <script>
-                    var a2a_config = a2a_config || {};
-                    a2a_config.linkname = "Check out my team on Pokémon Team Builder";
-                    a2a_config.linkurl = window.location.href;
-                    </script>
-                    <script async src="https://static.addtoany.com/menu/page.js"></script>
-                    <!-- AddToAny END -->
-                </p><br>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Build and check your Pokémon team" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> <div class="fb-share-button"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse">Share</a></div>
+                </p>
+                <br>
                 <h2 class="subtitle"><strong>Import from Pok&eacute;mon Showdown</strong></h2>
                 <p class="control has-addons" style="width: 100%">
                     <textarea id="sp_import_text" class="input is-expanded" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Paste exported team text"></textarea>
                     <a href="javascript:importShowdownTeam()" class="button is-success is-outlined select-button">Import</a>
                 </p>
                 <p style="padding-top:8px;">Make sure it is properly formatted. Importing will erase your current team.</p><br>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check out my Pokémon team" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <!--                 <p style="text-align:center;">
                     <script type="text/javascript">
                         atOptions = {
