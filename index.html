@@ -48,14 +48,6 @@
 </head>
 
 <body onload="initialize()">
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
 
 <section class="hero is-info">
     <div class="hero-body">
@@ -284,9 +276,14 @@
                 <h2 class="subtitle"><strong>Share Links</strong></h2>
                 <input id="sp_share_link" class="input" type="text" readonly="readonly" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" onclick="javascript:copyToClipboard(this);">
                 <p style="padding-top:8px;">Click to copy the link to your clipboard.</p><br>
-                <p>
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Build and check your Pokémon team" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> <div class="fb-share-button"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse">Share</a></div>
-                </p>
+                <nav class="level">
+                    <div class="level-item">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Build and check your Pokémon team" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    </div>
+                    <div class="level-item">
+                        <div class="fb-share-button"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse">Share</a></div>
+                    </div>
+                </nav>
                 <br>
                 <h2 class="subtitle"><strong>Import from Pok&eacute;mon Showdown</strong></h2>
                 <p class="control has-addons" style="width: 100%">
@@ -494,6 +491,15 @@
 
 <div id="page_notification" class="notification notification-top hidden">
 </div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 </body>
 
