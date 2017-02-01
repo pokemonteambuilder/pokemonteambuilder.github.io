@@ -289,9 +289,13 @@
                 </div>
                 <h2 class="subtitle"><strong>Share Links</strong></h2>
                 <input id="sp_share_link" class="input" type="text" readonly="readonly" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" onclick="javascript:copyToClipboard(this);">
-                <p style="padding-top:8px;">Click to copy the link to your clipboard.</p><br>
                 <nav class="level">
                     <div class="level-left">
+                        <div class="level-item">
+                            <p style="padding-top:8px;">Click to copy the link to your clipboard.</p>
+                        </div>
+                    </div>
+                    <div class="level-right">
                         <div class="level-item">
                             <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Build and check your Pokémon team" data-show-count="false" style="margin-top:8px;">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </div>
@@ -320,7 +324,7 @@
                             'width' : 300,
                             'params' : {}
                         };
-                        if (window.mobilecheck == false) {
+                        if (window.mobilecheck() == false) {
                             document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.bnserving.com/invoke.js"></scr' + 'ipt>');
                         }
                     </script>
