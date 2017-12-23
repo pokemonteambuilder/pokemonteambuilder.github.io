@@ -825,7 +825,7 @@ function loadFromHash(hash) {
 
 function loadData() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "http://pokemonteambuilder.com/data/pokedex.json", false );
+    xmlHttp.open( "GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false );
     xmlHttp.send( null );
     POKEDEX = JSON.parse(xmlHttp.responseText);
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
@@ -835,7 +835,7 @@ function loadData() {
 
 var startTimeout;
 function initialize() {
-    $.getJSON("http://pokemonteambuilder.com/data/pokedex.json", function(data){loadedData(data);});
+    $.getJSON("https://pokemonteambuilder.github.io/data/pokedex.json", function(data){loadedData(data);});
     startTimeout = setTimeout(function() {$("#page_notification").text("Loading, please wait...");$("#page_notification").addClass("is-danger");$("#page_notification").show(100);}, 100)
     resetSelected(0);
     resetSelected(1);
