@@ -228,6 +228,12 @@ a.serebii_link:not(.icon):hover, a.serebii_link:visited:not(.icon):hover {
     position: relative;
 }
 
+.picons i {
+    margin: auto;
+    position: relative;
+    right: 9px;
+}
+
 .picon_egg {
     background: url("../data/egg.png") no-repeat;
     background-position: center;
