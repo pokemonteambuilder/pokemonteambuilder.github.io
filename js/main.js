@@ -1,7 +1,11 @@
 "use strict";
 
+var TYPE_CHART = {};
+var MOVEDEX = {};
+var LEARNSETS = {};
 var POKEDEX = {};
 var POKEDEX_FILTERED = {};
+var NAMEDEX = {};
 
 var ATTACK_INVINDEX = {};
 
@@ -12,7 +16,7 @@ var numTypesFiltered = 0;
 var ALL_TYPES = ["Bug", "Dark", "Dragon",  "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"];
 var TECHNOBLAST_TYPES = ["Normal", "Electric", "Fire", "Water"];
 
-var GEN_CUTOFFS = [0, 151, 251, 386, 493, 649, 721, 802];
+var GEN_CUTOFFS = [0, 151, 251, 386, 493, 649, 721, 809, 893];
 
 var numSelected = 0;
 var currentSelected = ["", "", "", "", "", ""];
@@ -37,8 +41,8 @@ function addSelected(pkey, notify, reloadLink) {
     var index = numSelected - 1;
     currentSelected[index] = pkey;
     // Add the Pokemon name
-    $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].species);
-    $("#sp_box_" + index).find(".sp_name").html("<a title=\"Poked&eacute;x entry\" class=\"serebii_link\" target=\"_blank\" href=\"" + getSerebiiLink(pkey) + "\">" + POKEDEX[pkey].species + "</a>");
+    $("#sp_box_" + index).find(".sp_name").text(POKEDEX[pkey].name);
+    $("#sp_box_" + index).find(".sp_name").html("<a title=\"Poked&eacute;x entry\" class=\"serebii_link\" target=\"_blank\" href=\"" + getSerebiiLink(pkey) + "\">" + POKEDEX[pkey].name + "</a>");
     // Add the Pokemon types
     var types = POKEDEX[pkey].types;
     $("#sp_box_" + index).find(".sp_type1").html("<span class=\"tag tag_type tag_type_" + types[0] + "\">"+ types[0] + "</span>");
@@ -46,14 +50,14 @@ function addSelected(pkey, notify, reloadLink) {
         $("#sp_box_" + index).find(".sp_type2").html("<span class=\"tag tag_type tag_type_" + types[1] + "\">"+ types[1] + "</span>");
     }
     // Add the Pokemon image
-    $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey]));
+    $("#sp_box_" + index).find(".sp_icon").html(getIconString(POKEDEX[pkey], pkey));
     // Add the delete button
     $("#sp_box_" + index).find(".sp_delete").html("<a title=\"Remove\" href= \"javascript:removeSelected('" + pkey + "', true)\"><button class=\"delete\"></button></a>");
     // Add the attacks
     addAttacks(pkey, index);
 
     if (notify == true) {
-        showNotification("Added " + POKEDEX[pkey].species + " to your team!", "is-success", 800);
+        showNotification("Added " + POKEDEX[pkey].name + " to your team!", "is-success", 800);
     }
 
     calculateWeaknesses();
@@ -124,7 +128,7 @@ function generateShareLink() {
 
 
 function getSerebiiLink(pkey) {
-    var prefix = "http://www.serebii.net/pokedex-sm/";
+    var prefix = "http://www.serebii.net/pokedex-swsh/";
     var suffix = ".shtml";
     var num = POKEDEX[pkey]["num"];
     if (num < 10) {
@@ -138,7 +142,7 @@ function getSerebiiLink(pkey) {
 
 
 function addAttacks(pkeyOrig, pindex) {
-    var pkey = POKEDEX[pkeyOrig].species.toLowerCase();
+    var pkey = POKEDEX[pkeyOrig].name.toLowerCase();
     if (pkey.indexOf("-alola") != -1) {
         pkey = pkey.substring(0, pkey.indexOf("-")) + "alola";
     }
@@ -171,7 +175,7 @@ function addAttacks(pkeyOrig, pindex) {
         attackDict = JSON.parse(JSON.stringify(MOVEDEX));
     }
     if ("prevo" in POKEDEX[pkey]) {
-        var prevo1 = POKEDEX[pkey]["prevo"];
+        var prevo1 = NAMEDEX[POKEDEX[pkey]["prevo"]];
         for (var attackkey in LEARNSETS[prevo1].learnset) {
             if (attackkey in attackDict) {
             }
@@ -180,7 +184,7 @@ function addAttacks(pkeyOrig, pindex) {
             }
         }
         if ("prevo" in POKEDEX[prevo1]) {
-            var prevo2 = POKEDEX[prevo1]["prevo"];
+            var prevo2 = NAMEDEX[POKEDEX[prevo1]["prevo"]];
             for (var attackkey in LEARNSETS[prevo2].learnset) {
                 if (attackkey in attackDict) {
                 }
@@ -275,124 +279,124 @@ function attackTypeClicked(label, typeList) {
 
 function getIconString(pobject, key) {
     var suffix = "" + pobject.num;
-    if (pobject.species.indexOf("-Mega-X") != -1) {
+    if (pobject.name.indexOf("-Mega-X") != -1) {
         suffix += "-mega-x";
     }
-    else if (pobject.species.indexOf("-Mega-Y") != -1) {
+    else if (pobject.name.indexOf("-Mega-Y") != -1) {
         suffix += "-mega-y";
     }
-    else if (pobject.species.indexOf("-Mega") != -1) {
+    else if (pobject.name.indexOf("-Mega") != -1) {
         suffix += "-mega";
     }
-    else if (pobject.species.indexOf("-Alola") != -1) {
+    else if (pobject.name.indexOf("-Alola") != -1) {
         suffix += "-alolan";
     }
-    else if (pobject.species.indexOf("-Therian") != -1) {
+    else if (pobject.name.indexOf("-Therian") != -1) {
         suffix += "-therian";
     }
-    else if (pobject.species.indexOf("-10") != -1) {
+    else if (pobject.name.indexOf("-10") != -1) {
         suffix += "-10";
     }
-    else if (pobject.species.indexOf("-Complete") != -1) {
+    else if (pobject.name.indexOf("-Complete") != -1) {
         suffix += "-complete";
     }
-    else if (pobject.species.indexOf("-Attack") != -1) {
+    else if (pobject.name.indexOf("-Attack") != -1) {
         suffix += "-attack";
     }
-    else if (pobject.species.indexOf("-Defense") != -1) {
+    else if (pobject.name.indexOf("-Defense") != -1) {
         suffix += "-defense";
     }
-    else if (pobject.species.indexOf("-Speed") != -1) {
+    else if (pobject.name.indexOf("-Speed") != -1) {
         suffix += "-speed";
     }
-    else if (pobject.species.indexOf("-Sandy") != -1) {
+    else if (pobject.name.indexOf("-Sandy") != -1) {
         suffix += "-sandy";
     }
-    else if (pobject.species.indexOf("-Trash") != -1) {
+    else if (pobject.name.indexOf("-Trash") != -1) {
         suffix += "-trash";
     }
-    else if (pobject.species.indexOf("-Heat") != -1) {
+    else if (pobject.name.indexOf("-Heat") != -1) {
         suffix += "-heat";
     }
-    else if (pobject.species.indexOf("-Wash") != -1) {
+    else if (pobject.name.indexOf("-Wash") != -1) {
         suffix += "-wash";
     }
-    else if (pobject.species.indexOf("-Frost") != -1) {
+    else if (pobject.name.indexOf("-Frost") != -1) {
         suffix += "-frost";
     }
-    else if (pobject.species.indexOf("-Fan") != -1) {
+    else if (pobject.name.indexOf("-Fan") != -1) {
         suffix += "-fan";
     }
-    else if (pobject.species.indexOf("-Mow") != -1) {
+    else if (pobject.name.indexOf("-Mow") != -1) {
         suffix += "-mow";
     }
-    else if (pobject.species.indexOf("-Primal") != -1) {
+    else if (pobject.name.indexOf("-Primal") != -1) {
         suffix += "-primal";
     }
-    else if (pobject.species.indexOf("-Origin") != -1) {
+    else if (pobject.name.indexOf("-Origin") != -1) {
         suffix += "-origin";
     }
-    else if (pobject.species.indexOf("-Sky") != -1) {
+    else if (pobject.name.indexOf("-Sky") != -1) {
         suffix += "-sky";
     }
-    else if (pobject.species.indexOf("-Zen") != -1) {
+    else if (pobject.name.indexOf("-Zen") != -1) {
         suffix += "-zen";
     }
-    else if (pobject.species.indexOf("-Black") != -1) {
+    else if (pobject.name.indexOf("-Black") != -1) {
         suffix += "-black";
     }
-    else if (pobject.species.indexOf("-White") != -1) {
+    else if (pobject.name.indexOf("-White") != -1) {
         suffix += "-white";
     }
-    else if (pobject.species.indexOf("-Resolute") != -1) {
+    else if (pobject.name.indexOf("-Resolute") != -1) {
         suffix += "-resolute";
     }
-    else if (pobject.species.indexOf("-Pirouette") != -1) {
+    else if (pobject.name.indexOf("-Pirouette") != -1) {
         suffix += "-pirouette";
     }
-    else if (pobject.species.indexOf("-Ash") != -1) {
+    else if (pobject.name.indexOf("-Ash") != -1) {
         suffix += "-ash";
     }
-    else if (pobject.species.indexOf("-Blade") != -1) {
+    else if (pobject.name.indexOf("-Blade") != -1) {
         suffix += "-blade";
     }
-    else if (pobject.species.indexOf("-Small") != -1) {
+    else if (pobject.name.indexOf("-Small") != -1) {
         suffix += "-small";
     }
-    else if (pobject.species.indexOf("-Large") != -1) {
+    else if (pobject.name.indexOf("-Large") != -1) {
         suffix += "-large";
     }
-    else if (pobject.species.indexOf("-Super") != -1) {
+    else if (pobject.name.indexOf("-Super") != -1) {
         suffix += "-super";
     }
-    else if (pobject.species.indexOf("-Unbound") != -1) {
+    else if (pobject.name.indexOf("-Unbound") != -1) {
         suffix += "-unbound";
     }
-    else if (pobject.species.indexOf("-Pa'u") != -1) {
+    else if (pobject.name.indexOf("-Pa'u") != -1) {
         suffix += "-pau";
     }
-    else if (pobject.species.indexOf("-Pom-Pom") != -1) {
+    else if (pobject.name.indexOf("-Pom-Pom") != -1) {
         suffix += "-pom-pom";
     }
-    else if (pobject.species.indexOf("-Sensu") != -1) {
+    else if (pobject.name.indexOf("-Sensu") != -1) {
         suffix += "-sensu";
     }
-    else if (pobject.species.indexOf("-Midnight") != -1) {
+    else if (pobject.name.indexOf("-Midnight") != -1) {
         suffix += "-midnight";
     }
-    else if (pobject.species.indexOf("-Midday") != -1) {
+    else if (pobject.name.indexOf("-Midday") != -1) {
         suffix += "-midday";
     }
-    else if (pobject.species.indexOf("-School") != -1) {
+    else if (pobject.name.indexOf("-School") != -1) {
         suffix += "-school";
     }
-    else if (pobject.species.indexOf("-Meteor") != -1) {
+    else if (pobject.name.indexOf("-Meteor") != -1) {
         suffix += "-meteor";
     }
-    else if (pobject.species.indexOf("stic-F") != -1) {
+    else if (pobject.name.indexOf("stic-F") != -1) {
         suffix += "-female";
     }
-    return "<i id=\"" + key + "\" class=\"image is-40x30 picons picon_" + suffix + "\"></i>";
+    return `<i id="${key}" class="image sprite-${key}"></i>`;
 }
 
 
@@ -403,7 +407,7 @@ function displayResults() {
     $("#pp_results").append("<div id=\"pp_row_" + currentColumn + "\" class=\"columns is-gapless is-mobile\"></div>");
     for (var key in POKEDEX_FILTERED) {
         if (POKEDEX_FILTERED.hasOwnProperty(key)) {
-            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" title=\"" + POKEDEX_FILTERED[key].species + "\" href=\"javascript:addSelected('" + key + "', true, true)\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
+            $("#pp_row_" + currentColumn).append("<div class=\"column is-1 picons_column picon_border\"><a id=\"" + key + "\" class=\"picons\" title=\"" + POKEDEX_FILTERED[key].name + "\" href=\"javascript:addSelected('" + key + "', true, true)\">" + getIconString(POKEDEX_FILTERED[key], key) + "</a></div> ");
         }
         wrapCount += 1;
         if (wrapCount === 12) {
@@ -415,8 +419,8 @@ function displayResults() {
 
     var shakeController = 0;
     var currentType = "";
-    $("i.picons").hover(function() {
-        var $icon = $(this);
+    $("a.picons").hover(function() {
+        var $icon = $(this.children[0]);
         var pkey = $icon[0].id;
         if (pkey in POKEDEX) {
             currentType = POKEDEX[pkey].types[0];
@@ -425,7 +429,7 @@ function displayResults() {
         shakeController = setInterval(function() {$icon.toggleClass("picon_move");}, 175);
     },
     function() {
-        var $icon = $(this);
+        var $icon = $(this.children[0]);
         $icon.parent().parent().removeClass("picon_border_" + currentType);
         $icon.removeClass("picon_move");
         clearInterval(shakeController);
@@ -567,7 +571,7 @@ function filterByName(useCurrent) {
     }
     var copyPokedex = {};
     for (var key in dex) {
-        if (dex[key].species.toLowerCase().indexOf(FILTER_NAME) != -1) {
+        if (dex[key].name.toLowerCase().indexOf(FILTER_NAME) != -1) {
             copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
         }
     }
@@ -641,7 +645,10 @@ function filterByAll() {
     if ($("#pp_filter_nonmegas")[0].checked == true) {
         filterNonMegas();
     }
-    for (var i = 1; i <= 7; i++) {
+    if ($("#pp_filter_nongmax")[0].checked == true) {
+        filterNonGmax();
+    }
+    for (var i = 1; i <= 8; i++) {
         if ($("#pp_filter_gen_" + i)[0].checked == false) {
             filterByGeneration(i);
         }
@@ -655,13 +662,14 @@ function resetFilters() {
     $("#pp_filter_name").attr("placeholder", "Enter text to filter by name");
     $("#pp_filter_preevos")[0].checked = false;
     $("#pp_filter_nonmegas")[0].checked = false;
+    $("#pp_filter_nongmax")[0].checked = false;
     $("#pp_filter_toggle")[0].checked = true;
     for (var key in FILTER_TYPES) {
         FILTER_TYPES[key] = false;
         numTypesFiltered = 0;
         $("#pp_filter_type_" + key).removeClass("tag_selected");
     }
-    for (var i = 1; i <= 7; i++) {
+    for (var i = 1; i <= 8; i++) {
         $("#pp_filter_gen_" + i)[0].checked = true;
     }
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
@@ -703,7 +711,19 @@ function filterNonMegas() {
     var dex = POKEDEX_FILTERED;
     var copyPokedex = {};
     for (var key in dex) {
-        if (dex[key].species.indexOf("-Mega") != -1) {
+        if (dex[key].name.indexOf("-Mega") != -1) {
+            copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
+        }
+    }
+    POKEDEX_FILTERED = JSON.parse(JSON.stringify(copyPokedex));
+}
+
+
+function filterNonGmax() {
+    var dex = POKEDEX_FILTERED;
+    var copyPokedex = {};
+    for (var key in dex) {
+        if (dex[key].name.indexOf("-Gmax") != -1) {
             copyPokedex[key] = JSON.parse(JSON.stringify(dex[key]));
         }
     }
@@ -728,6 +748,17 @@ function nonMegasFilterClicked() {
     }
     else {
         filterNonMegas();
+    }
+    displayResults();
+}
+
+
+function nonGmaxFilterClicked() {
+    if ($("#pp_filter_nongmax")[0].checked == false) {
+        filterByAll();
+    }
+    else {
+        filterNonGmax();
     }
     displayResults();
 }
@@ -822,20 +853,19 @@ function loadFromHash(hash) {
     calculateCoverage();
 }
 
-
-function loadData() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "https://pokemonteambuilder.github.io/data/pokedex.json", false );
-    xmlHttp.send( null );
-    POKEDEX = JSON.parse(xmlHttp.responseText);
-    POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
-    displayResults();
+var loaded = 0;
+function queueLoaded() {
+    if (++loaded == 3) {
+        $.getJSON("/data/pokedex.json", loadedData);
+    }
 }
 
 
 var startTimeout;
 function initialize() {
-    $.getJSON("https://pokemonteambuilder.github.io/data/pokedex.json", function(data){loadedData(data);});
+    $.getJSON("/data/typechart.json", data => { TYPE_CHART = data; queueLoaded() });
+    $.getJSON("/data/learnsets.json", data => { LEARNSETS  = data; queueLoaded() });
+    $.getJSON("/data/moves.json",     data => { MOVEDEX    = data; queueLoaded() });
     startTimeout = setTimeout(function() {$("#page_notification").text("Loading, please wait...");$("#page_notification").addClass("is-danger");$("#page_notification").show(100);}, 100)
     resetSelected(0);
     resetSelected(1);
@@ -849,6 +879,9 @@ function initialize() {
 function loadedData(data) {
     POKEDEX = data;
     POKEDEX_FILTERED = JSON.parse(JSON.stringify(POKEDEX));
+    for (var k in data) {
+        NAMEDEX[data[k].name] = k;
+    }
     displayResults();
     if (document.location.hash != "") {
         loadFromHash(document.location.hash);
@@ -932,7 +965,7 @@ function readPokemonStrings(stringList) {
             pindex += 1;
             aindex = 1;
             for (var pkey in POKEDEX) {
-                if (POKEDEX[pkey].species == pname) {
+                if (POKEDEX[pkey].name == pname) {
                     addSelected(pkey, false, false);
                     break;
                 }

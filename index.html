@@ -3,9 +3,9 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Pok&eacute;mon Sun &amp; Moon Team Builder</title>
+    <title>Pok&eacute;mon Sword &amp; Shield Team Builder</title>
     <meta name="author" content="Tiberiu Vilcu"/>
-    <meta name="description" content="Plan and build your perfect Pok&eacute;mon team for Sun &amp; Moon. Use filters to find Pok&eacute;mon, teach them moves, and check type coverage charts. Share your team with others, and even import from Pok&eacute;mon Showdown."/>
+    <meta name="description" content="Plan and build your perfect Pok&eacute;mon team for Sword &amp; Shield. Use filters to find Pok&eacute;mon, teach them moves, and check type coverage charts. Share your team with others, and even import from Pok&eacute;mon Showdown."/>
     <meta name="Resource-type" content="Document"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
@@ -31,14 +31,11 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/positions.css">
     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="js/typechart.js"></script>
-    <script type="text/javascript" src="js/moves.js"></script>
-    <script type="text/javascript" src="js/learnsets.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <meta property="og:url"           content="https://pokemonteambuilder.github.io" />
     <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Pok&eacute;mon Sun &amp; Moon Team Builder" />
-    <meta property="og:description"   content="Plan and build your perfect Pok&eacute;mon team for Sun &amp; Moon. Use filters to find Pok&eacute;mon, teach them moves, and check type coverage charts. Share your team with others, and even import from Pok&eacute;mon Showdown." />
+    <meta property="og:title"         content="Pok&eacute;mon Sword &amp; Shield Team Builder" />
+    <meta property="og:description"   content="Plan and build your perfect Pok&eacute;mon team for Sword &amp; Shield. Use filters to find Pok&eacute;mon, teach them moves, and check type coverage charts. Share your team with others, and even import from Pok&eacute;mon Showdown." />
     <meta property="og:image"         content="favicon-196x196.png" />
 </head>
 
@@ -69,7 +66,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <h2 class="subtitle">Designed for Pok&eacute;mon Sun &amp; Moon</h2>
+                        <h2 class="subtitle">Designed for Pok&eacute;mon Sword &amp; Shield</h2>
                     </div>
                 </div>
             </nav>
@@ -318,7 +315,12 @@
                         </div>
                         <div class="level-item">
                             <label class="checkbox">
-                                <input id="pp_filter_nonmegas" type="checkbox" onchange="nonMegasFilterClicked()"> Mega evolutions only
+                                <input id="pp_filter_nonmegas" type="checkbox" onchange="nonMegasFilterClicked()"> Mega only
+                            </label>
+                        </div>
+                        <div class="level-item">
+                            <label class="checkbox">
+                                <input id="pp_filter_nongmax" type="checkbox" onchange="nonGmaxFilterClicked()"> G-Max only
                             </label>
                         </div>
                     </div>
@@ -357,6 +359,11 @@
                     <div class="level-item">
                         <label class="checkbox">
                             <input id="pp_filter_gen_7" type="checkbox" onchange="generationFilterClicked(7)" checked> Gen. 7
+                        </label>
+                    </div>
+                    <div class="level-item">
+                        <label class="checkbox">
+                            <input id="pp_filter_gen_8" type="checkbox" onchange="generationFilterClicked(8)" checked> Gen. 8
                         </label>
                     </div>
                     <a href="javascript:resetFilters()" class="button is-danger select-button">Reset all filters</a>
@@ -407,7 +414,7 @@
             <div class="column">
                 <div class="content has-text-left">
                     <p><strong>What is this?</strong></p>
-                    <p>Pok&eacute;mon Team Builder is an online tool to help you plan and build a strong and well-balanced Pok&eacute;mon team, for both in-game and competitive use. It has smart filtering options, is capable of adding attacks to Pok&eacute;mon, and has useful features such as team sharing, team importing, and links to Pok&eacute;dex entries on <a href="http://www.serebii.net" target="_blank">Serebii</a>. The Type Charts show you how your team is balanced and if it is well covered, both offensively and defensively. The Pok&eacute;mon and movesets are updated for the 7th generation, so it is compatible with the new Sun &amp; Moon games and with the Pok&eacute;mon Bank update.</p>
+                    <p>Pok&eacute;mon Team Builder is an online tool to help you plan and build a strong and well-balanced Pok&eacute;mon team, for both in-game and competitive use. It has smart filtering options, is capable of adding attacks to Pok&eacute;mon, and has useful features such as team sharing, team importing, and links to Pok&eacute;dex entries on <a href="http://www.serebii.net" target="_blank">Serebii</a>. The Type Charts show you how your team is balanced and if it is well covered, both offensively and defensively. The Pok&eacute;mon and movesets are updated for the 8th generation, so it is compatible with the new Sword &amp; Shield games and with the Pok&eacute;mon Bank update.</p>
                 </div>
             </div>
             <div class="column">
