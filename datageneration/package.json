@@ -9,5 +9,8 @@
   },
   "dependencies": {
     "fs": "0.0.1-security"
+  },
+  "scripts": {
+    "gen": "ts-node src/generate.ts"
   }
 }
